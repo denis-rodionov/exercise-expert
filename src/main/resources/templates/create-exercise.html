@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Exercise</title>
+</head>
+<body>
+  <h1>Create Exercise</h1>
+  <form method="post" th:object="${newExercise}" th:action="@{/exercise}">
+    <div th:if="${#fields.hasErrors()}">
+        <span class="validationError">
+        Please correct the problems below and resubmit.
+        </span>
+    </div>
+    <ul>
+      <li>
+        <label for="id">id:</label>
+        <input type="text" id="id" th:field="*{id}">
+      </li>
+      <li>
+        <label for="name">name:</label>
+        <input type="text" id="name" th:field="*{name}">
+      </li>
+    </ul>
+    <button type="submit">Submit</button>
+  </form>
+  <a href="/exercise">To exercise list</a>
+</body>
+</html>

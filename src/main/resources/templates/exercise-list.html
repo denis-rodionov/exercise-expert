@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>Exercise List</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+</head>
+<body>
+    <a href="/exercise/create">Create new exercise</a>
+    <ul>
+        <li th:each="exercise: ${exercises}"><span th:text="${exercise.name}"></span></li>
+    </ul>
+</body>
+</html>
