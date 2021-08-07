@@ -15,19 +15,9 @@ import javax.validation.Valid
 
 @Controller
 @RequestMapping("/exercise")
-@SessionAttributes("userContext")
-class ExerciseListController {
-    val logger = LoggerFactory.getLogger(ExerciseListController::class.java)
-
+class ExerciseListController : BaseController() {
     @Autowired
     lateinit var exerciseRepository: ExerciseRepository
-
-
-    @ModelAttribute(name = "userContext")
-    fun user(): UserContext {
-        logger.info("Getting user info...")
-        return UserContext(null)
-    }
 
     @GetMapping
     fun getAllExercises(@ModelAttribute userContext: UserContext, model: Model): String {

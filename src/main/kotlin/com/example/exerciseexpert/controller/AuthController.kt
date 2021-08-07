@@ -12,16 +12,7 @@ import javax.validation.Valid
 
 @Controller
 @RequestMapping("/auth")
-@SessionAttributes("userContext")
-class AuthController {
-    val logger = LoggerFactory.getLogger(AuthController::class.java)
-
-    @ModelAttribute(name = "userContext")
-    fun user(): UserContext {
-        logger.info("Getting user info...")
-        return UserContext(null)
-    }
-
+class AuthController : BaseController() {
     @GetMapping
     fun loginPage(@ModelAttribute userContext: UserContext, model: Model): String {
         if (userContext.user != null) {
