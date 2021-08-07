@@ -4,4 +4,6 @@ import com.example.exerciseexpert.domain.Exercise
 
 interface ExerciseRepository {
     fun getExercises(): List<Exercise>
+
+    fun createExercise(newExercise: Exercise)
 }

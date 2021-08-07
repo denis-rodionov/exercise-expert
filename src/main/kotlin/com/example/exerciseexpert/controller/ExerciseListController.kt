@@ -1,6 +1,8 @@
 package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.Exercise
+import com.example.exerciseexpert.repository.ExerciseRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
@@ -14,14 +16,12 @@ import javax.validation.Valid
 @RequestMapping("/exercise")
 class ExerciseListController {
 
-    val exerciseList: MutableList<Exercise> = mutableListOf(
-        Exercise(name = "Exercise 1"),
-        Exercise(name = "Exercise 2")
-    )
+    @Autowired
+    lateinit var exerciseRepository: ExerciseRepository
 
     @GetMapping
     fun getAllExercises(model: Model): String {
-        model.addAttribute("exercises", exerciseList)
+        model.addAttribute("exercises", exerciseRepository.getExercises())
         return "exercise-list"
     }
 
@@ -37,7 +37,7 @@ class ExerciseListController {
         if (errors.hasErrors()) {
             return "create-exercise"
         }
-        exerciseList.add(newExercise)
+        exerciseRepository.createExercise(newExercise)
         return "redirect:/exercise"
     }
 }
