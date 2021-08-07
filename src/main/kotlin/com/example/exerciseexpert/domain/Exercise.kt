@@ -1,3 +1,5 @@
 package com.example.exerciseexpert.domain
 
-class Exercise(val name: String? = null)
+import javax.validation.constraints.NotBlank
+
+class Exercise(@field:NotBlank(message = "name should not be empty") val name: String? = null)
