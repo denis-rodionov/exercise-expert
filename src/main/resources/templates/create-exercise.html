@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 <body>
+  <div th:replace="fragments/header :: header">&nbsp;</div>
   <h1>Create Exercise</h1>
   <form method="post" th:object="${newExercise}" th:action="@{/exercise}">
     <ul>

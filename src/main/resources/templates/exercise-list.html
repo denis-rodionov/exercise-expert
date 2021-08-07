@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 </head>
 <body>
+    <div th:replace="fragments/header :: header">&nbsp;</div>
     <a href="/exercise/create">Create new exercise</a>
     <ul>
         <li th:each="exercise: ${exercises}">

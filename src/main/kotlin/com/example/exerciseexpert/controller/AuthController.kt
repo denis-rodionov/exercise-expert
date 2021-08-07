@@ -41,4 +41,10 @@ class AuthController {
         userContext.user = User(loginData.username.orEmpty())
         return "redirect:/"
     }
+
+    @GetMapping("/logout")
+    fun logout(@ModelAttribute userContext: UserContext): String {
+        userContext.user = null
+        return "redirect:/"
+    }
 }

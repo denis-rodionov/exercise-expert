@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+  <nav th:fragment="header">
+    <div th:if="${userContext.user}">
+      Logged in as <span th:text="${userContext.user.name}"></span> | <a href="/auth/logout">Log out</a>
+    </div>
+    <div th:unless="${userContext.user}">
+      Not logged in
+    </div>
+  </nav>
+</body>
+</html>
