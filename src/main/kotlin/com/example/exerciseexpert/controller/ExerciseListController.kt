@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 class ExerciseListController {
 
     val exerciseList: MutableList<Exercise> = mutableListOf(
-        Exercise(id = 1, name = "Exercise 1"),
-        Exercise(id = 2, name = "Exercise 2")
+        Exercise(name = "Exercise 1"),
+        Exercise(name = "Exercise 2")
     )
 
     @GetMapping

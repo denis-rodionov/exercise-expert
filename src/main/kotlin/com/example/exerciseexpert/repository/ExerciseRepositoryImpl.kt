@@ -5,8 +5,8 @@ import com.example.exerciseexpert.domain.Exercise
 class ExerciseRepositoryImpl : ExerciseRepository {
     override fun getExercises(): List<Exercise> {
         return listOf(
-            Exercise(id = 1, name = "Exercise 1"),
-            Exercise(id = 2, name = "Exercise 2")
+            Exercise(name = "Exercise 1"),
+            Exercise(name = "Exercise 2")
         )
     }
 }
