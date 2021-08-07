@@ -1,29 +1,39 @@
 package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.Exercise
+import com.example.exerciseexpert.domain.User
+import com.example.exerciseexpert.domain.UserContext
 import com.example.exerciseexpert.repository.ExerciseRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
+
 
 @Controller
 @RequestMapping("/exercise")
+@SessionAttributes("userContext")
 class ExerciseListController {
-
     val logger = LoggerFactory.getLogger(ExerciseListController::class.java)
 
     @Autowired
     lateinit var exerciseRepository: ExerciseRepository
 
+
+    @ModelAttribute(name = "userContext")
+    fun user(): UserContext {
+        logger.info("Getting user info...")
+        return UserContext(null)
+    }
+
     @GetMapping
-    fun getAllExercises(model: Model): String {
+    fun getAllExercises(@ModelAttribute userContext: UserContext, model: Model): String {
+        if (userContext.user == null) {
+            return "redirect:/auth"
+        }
         model.addAttribute("exercises", exerciseRepository.getExercises())
         return "exercise-list"
     }
@@ -36,10 +46,17 @@ class ExerciseListController {
 
     @PostMapping
     fun createExercise(@ModelAttribute(value = "newExercise") @Valid newExercise: Exercise,
+                       @ModelAttribute userContext: UserContext,
                        errors: Errors, model: Model): String {
         if (errors.hasErrors()) {
             return "create-exercise"
         }
+        if (userContext.user == null) {
+            return "redirect:/auth"
+        }
+        logger.info("User ${userContext.user} created exercise")
+        newExercise.author = userContext.user.toString()
+
         exerciseRepository.createExercise(newExercise)
         return "redirect:/exercise"
     }

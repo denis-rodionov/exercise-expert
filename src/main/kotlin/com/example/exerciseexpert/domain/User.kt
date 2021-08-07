@@ -1,4 +1,7 @@
 package com.example.exerciseexpert.domain
 
-class User {
+class User(val name: String) {
+    override fun toString(): String {
+        return name
+    }
 }

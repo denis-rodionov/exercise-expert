@@ -7,7 +7,11 @@
 <body>
     <a href="/exercise/create">Create new exercise</a>
     <ul>
-        <li th:each="exercise: ${exercises}"><span th:text="${exercise.name}"></span></li>
+        <li th:each="exercise: ${exercises}">
+            <span th:text="${exercise.name}"></span>
+            , created by
+            <span th:text="${exercise.author}"></span>
+        </li>
     </ul>
 </body>
 </html>

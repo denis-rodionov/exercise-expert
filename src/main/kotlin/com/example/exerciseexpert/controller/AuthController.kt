@@ -1,0 +1,44 @@
+package com.example.exerciseexpert.controller
+
+import com.example.exerciseexpert.domain.User
+import com.example.exerciseexpert.domain.UserContext
+import com.example.exerciseexpert.form.LoginData
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.validation.Errors
+import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
+
+@Controller
+@RequestMapping("/auth")
+@SessionAttributes("userContext")
+class AuthController {
+    val logger = LoggerFactory.getLogger(AuthController::class.java)
+
+    @ModelAttribute(name = "userContext")
+    fun user(): UserContext {
+        logger.info("Getting user info...")
+        return UserContext(null)
+    }
+
+    @GetMapping
+    fun loginPage(@ModelAttribute userContext: UserContext, model: Model): String {
+        if (userContext.user != null) {
+            return "redirect:/"
+        }
+        model.addAttribute("loginData", LoginData())
+        return "login"
+    }
+
+    @PostMapping
+    fun login(@ModelAttribute userContext: UserContext, model: Model,
+              @Valid @ModelAttribute loginData: LoginData,
+              errors: Errors): String {
+        if (errors.hasErrors()) {
+            return "login"
+        }
+        userContext.user = User(loginData.username.orEmpty())
+        return "redirect:/"
+    }
+}

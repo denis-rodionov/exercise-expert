@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 class ExerciseRepositoryImpl : ExerciseRepository {
 
-    val exerciseList = mutableListOf<Exercise>(
+    val exerciseList = mutableListOf(
         Exercise(name = "Exercise 1 from repo"),
         Exercise(name = "Exercise 2 from repo")
     )
