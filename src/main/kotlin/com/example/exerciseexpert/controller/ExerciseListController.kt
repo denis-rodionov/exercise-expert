@@ -2,6 +2,7 @@ package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.Exercise
 import com.example.exerciseexpert.repository.ExerciseRepository
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -15,6 +16,8 @@ import javax.validation.Valid
 @Controller
 @RequestMapping("/exercise")
 class ExerciseListController {
+
+    val logger = LoggerFactory.getLogger(ExerciseListController::class.java)
 
     @Autowired
     lateinit var exerciseRepository: ExerciseRepository
