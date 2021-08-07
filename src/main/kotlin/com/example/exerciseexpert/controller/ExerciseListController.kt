@@ -29,7 +29,10 @@ class ExerciseListController : BaseController() {
     }
 
     @GetMapping("/create")
-    fun createExerciseForm(model: Model): String {
+    fun createExerciseForm(@ModelAttribute userContext: UserContext, model: Model): String {
+        if (userContext.user == null) {
+            return "redirect:/auth"
+        }
         model.addAttribute("newExercise", Exercise())
         return "create-exercise"
     }
