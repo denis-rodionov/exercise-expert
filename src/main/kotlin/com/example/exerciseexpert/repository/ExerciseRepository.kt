@@ -1,9 +1,7 @@
 package com.example.exerciseexpert.repository
 
 import com.example.exerciseexpert.domain.Exercise
+import org.springframework.data.repository.PagingAndSortingRepository
 
-interface ExerciseRepository {
-    fun getExercises(): List<Exercise>
-
-    fun createExercise(newExercise: Exercise)
+interface ExerciseRepository : PagingAndSortingRepository<Exercise, String> {
 }

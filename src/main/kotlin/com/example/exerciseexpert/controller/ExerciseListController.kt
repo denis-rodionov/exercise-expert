@@ -24,7 +24,7 @@ class ExerciseListController : BaseController() {
         if (userContext.user == null) {
             return "redirect:/auth"
         }
-        model.addAttribute("exercises", exerciseRepository.getExercises())
+        model.addAttribute("exercises", exerciseRepository.findAll())
         return "exercise-list"
     }
 
@@ -50,7 +50,7 @@ class ExerciseListController : BaseController() {
         logger.info("User ${userContext.user} created exercise")
         newExercise.author = userContext.user.toString()
 
-        exerciseRepository.createExercise(newExercise)
+        exerciseRepository.save(newExercise)
         return "redirect:/exercise"
     }
 }
