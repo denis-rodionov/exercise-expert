@@ -14,7 +14,7 @@ class User(val name: String) : UserDetails {
     }
 
     override fun getPassword(): String {
-        return "qwe"
+        return "{noop}qwe"
     }
 
     override fun getUsername(): String {
