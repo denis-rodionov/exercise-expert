@@ -1,4 +1,4 @@
-package com.example.exerciseexpert
+package com.example.exerciseexpert.service
 
 import com.example.exerciseexpert.domain.User
 import org.springframework.beans.factory.annotation.Autowired

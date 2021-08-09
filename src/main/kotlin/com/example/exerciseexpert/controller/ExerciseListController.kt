@@ -21,18 +21,12 @@ class ExerciseListController : BaseController() {
 
     @GetMapping
     fun getAllExercises(@ModelAttribute userContext: UserContext, model: Model): String {
-        if (userContext.user == null) {
-            return "redirect:/auth"
-        }
         model.addAttribute("exercises", exerciseRepository.findAll())
         return "exercise-list"
     }
 
     @GetMapping("/create")
     fun createExerciseForm(@ModelAttribute userContext: UserContext, model: Model): String {
-        if (userContext.user == null) {
-            return "redirect:/auth"
-        }
         model.addAttribute("newExercise", Exercise())
         return "create-exercise"
     }
@@ -43,9 +37,6 @@ class ExerciseListController : BaseController() {
                        errors: Errors, model: Model): String {
         if (errors.hasErrors()) {
             return "create-exercise"
-        }
-        if (userContext.user == null) {
-            return "redirect:/auth"
         }
         logger.info("User ${userContext.user} created exercise")
         newExercise.author = userContext.user.toString()

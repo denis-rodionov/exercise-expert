@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 class HomeController : BaseController() {
     @GetMapping
     fun index(@ModelAttribute userContext: UserContext, model: Model) : String {
-        if (userContext.user == null) {
-            return "redirect:/auth"
-        }
         return "home"
     }
 }

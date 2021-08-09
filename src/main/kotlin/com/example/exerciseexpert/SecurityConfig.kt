@@ -1,5 +1,6 @@
 package com.example.exerciseexpert
 
+import com.example.exerciseexpert.service.AuthService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
