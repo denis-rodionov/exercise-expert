@@ -15,7 +15,8 @@ open class BaseController {
         logger.info("Logged user: $user")
         if (user is User) {
             return UserContext(user)
+        } else {
+            return UserContext(null)
         }
-        throw Exception("Cannot get logged user")
     }
 }

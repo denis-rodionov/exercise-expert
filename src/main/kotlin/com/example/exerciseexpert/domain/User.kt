@@ -1,10 +1,17 @@
 package com.example.exerciseexpert.domain
 
+import org.springframework.data.annotation.Id
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class User(val name: String) : UserDetails {
+data class User(
+    @Id
+    var id: String? = null,
+    val name: String,
+    val email: String,
+    val userPassword: String
+) : UserDetails {
     override fun toString(): String {
         return name
     }

@@ -1,20 +1,23 @@
 package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.Exercise
-import com.example.exerciseexpert.domain.User
 import com.example.exerciseexpert.domain.UserContext
 import com.example.exerciseexpert.repository.ExerciseRepository
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
-import org.springframework.web.bind.annotation.*
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import javax.validation.Valid
 
 
 @Controller
 @RequestMapping("/exercise")
+@Validated
 class ExerciseListController : BaseController() {
     @Autowired
     lateinit var exerciseRepository: ExerciseRepository

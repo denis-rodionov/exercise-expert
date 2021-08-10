@@ -17,4 +17,8 @@ class WebConfig : WebMvcConfigurer {
         registry.addInterceptor(requestInterceptor)
             .addPathPatterns("/*")
     }
+
+    override fun addViewControllers(registry: ViewControllerRegistry) {
+        registry.addViewController("/login")
+    }
 }
