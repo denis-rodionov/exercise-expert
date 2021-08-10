@@ -13,8 +13,8 @@ class RequestInterceptor() : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val startTime = Instant.now().toEpochMilli()
-        logger.info("Request URL::" + request.getRequestURL().toString() +
-                ":: Start Time=" + Instant.now());
+        logger.info("Request URL:: ${request.method} " + request.getRequestURL().toString() +
+                ":: Start Time=" + Instant.now())
         request.setAttribute("startTime", startTime)
         return true
     }

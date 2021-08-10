@@ -2,6 +2,7 @@ package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.Exercise
 import com.example.exerciseexpert.domain.UserContext
+import com.example.exerciseexpert.form.CreateExercise
 import com.example.exerciseexpert.repository.ExerciseRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -17,7 +18,6 @@ import javax.validation.Valid
 
 @Controller
 @RequestMapping("/exercise")
-@Validated
 class ExerciseListController : BaseController() {
     @Autowired
     lateinit var exerciseRepository: ExerciseRepository
@@ -30,21 +30,26 @@ class ExerciseListController : BaseController() {
 
     @GetMapping("/create")
     fun createExerciseForm(@ModelAttribute userContext: UserContext, model: Model): String {
-        model.addAttribute("newExercise", Exercise())
+        model.addAttribute("newExercise", CreateExercise())
         return "create-exercise"
     }
 
     @PostMapping
-    fun createExercise(@ModelAttribute(value = "newExercise") @Valid newExercise: Exercise,
-                       @ModelAttribute userContext: UserContext,
-                       errors: Errors, model: Model): String {
+    fun createExercise(@ModelAttribute(name = "newExercise") @Valid newExercise: CreateExercise,
+                       errors: Errors,
+                       model: Model,
+                       @ModelAttribute userContext: UserContext,): String {
+        logger.info("DEBUG: creating exercise...")
         if (errors.hasErrors()) {
+            logger.info("DEBUG: errors found")
             return "create-exercise"
         }
         logger.info("User ${userContext.user} created exercise")
-        newExercise.author = userContext.user.toString()
 
-        exerciseRepository.save(newExercise)
+        val author = userContext.user.toString()
+        val exercise = Exercise(null, newExercise.name!!, author)
+
+        exerciseRepository.save(exercise)
         return "redirect:/exercise"
     }
 }
