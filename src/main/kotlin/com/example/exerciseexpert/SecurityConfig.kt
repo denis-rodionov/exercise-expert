@@ -31,6 +31,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .loginProcessingUrl("/login")
             .usernameParameter("email")
             .passwordParameter("password")
+            .defaultSuccessUrl("/exercise", true)
     }
 
     @Bean
