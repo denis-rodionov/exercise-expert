@@ -13,10 +13,6 @@ open class BaseController {
     fun user(): UserContext {
         val user = SecurityContextHolder.getContext().authentication.principal;
         logger.info("Logged user: $user")
-        if (user is User) {
-            return UserContext(user)
-        } else {
-            return UserContext(null)
-        }
+        return if (user is User) UserContext(user) else UserContext(null)
     }
 }
