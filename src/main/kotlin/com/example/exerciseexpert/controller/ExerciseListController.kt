@@ -2,8 +2,10 @@ package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.Exercise
 import com.example.exerciseexpert.domain.UserContext
+import com.example.exerciseexpert.domain.UserName
 import com.example.exerciseexpert.form.CreateExercise
 import com.example.exerciseexpert.repository.ExerciseRepository
+import com.example.exerciseexpert.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -24,7 +26,9 @@ class ExerciseListController : BaseController() {
 
     @GetMapping
     fun getAllExercises(@ModelAttribute userContext: UserContext, model: Model): String {
-        model.addAttribute("exercises", exerciseRepository.findAll())
+        val allExercises = exerciseRepository.findAll()
+        model.addAttribute("exercises", allExercises)
+
         return "exercise-list"
     }
 
@@ -46,10 +50,13 @@ class ExerciseListController : BaseController() {
         }
         logger.info("User ${userContext.user} created exercise")
 
-        val author = userContext.user.toString()
-        val exercise = Exercise(null, newExercise.name!!, author)
+        //val author = userContext.user!!
+        userContext.user?.let { author ->
+            val exercise = Exercise(null, newExercise.name!!,
+                UserName(null, author.name, author.id!!), author.name)
+            exerciseRepository.save(exercise)
+        } ?: throw Exception("Current user is not known")
 
-        exerciseRepository.save(exercise)
         return "redirect:/exercise"
     }
 }
