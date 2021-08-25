@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Exercise</title>
-    <link rel="stylesheet" th:href="@{/styles.css}" />
+<head th:include="fragments/layout :: headFragment">
+  <title id="pageTitle">Create Exercise</title>
 </head>
 <body>
-  <div th:replace="fragments/header :: header">&nbsp;</div>
+  <div th:replace="fragments/layout :: header">&nbsp;</div>
   <h1>Create Exercise</h1>
   <form method="post" th:object="${newExercise}" th:action="@{/exercise}">
     <ul>

@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-    <title>Exercise List</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" th:href="@{/styles.css}" />
+<head th:include="fragments/layout :: headFragment">
+    <title id="pageTitle">Exercise List</title>
 </head>
 <body>
-    <div th:replace="fragments/header :: header">&nbsp;</div>
+    <div th:replace="fragments/layout :: header">&nbsp;</div>
     <div th:text="${error}" class="validation-error"></div>
     <div id="confirmForm" style="display: none;">
         Are you sure you want to delete <span id="confirmExerciseName"></span> exercise?
