@@ -7,35 +7,61 @@
     <div th:replace="fragments/layout :: header">&nbsp;</div>
 
     <div class="ui segment">
-        <div th:text="${error}" class="validation-error"></div>
-        <div id="confirmForm" style="display: none;">
-            Are you sure you want to delete <span id="confirmExerciseName"></span> exercise?
-            <a id="confirmBtn">delete</a>
-            <a id="closeConfirmDialogBtn" href="#">cancel</a>
+        <!-- Delete confirmation form -->
+        <div class="ui modal">
+            <i class="close icon"></i>
+            <div class="header">
+                Confirm
+            </div>
+            <div class="image content">
+                <div class="description">
+                    Are you sure you want to delete <span id="confirmExerciseName"></span> exercise?
+                </div>
+            </div>
+            <div class="actions">
+                <a id="closeConfirmDialogBtn" class="ui button">Cancel</a>
+                <a id="confirmBtn" class="ui red button">Delete</a>
+            </div>
         </div>
-        <a href="/exercise/create">Create new exercise</a>
-        <ul>
-            <li th:each="exercise: ${exercises}">
-                <span th:text="${exercise.name}"></span>
-                , created by
-                <span th:text="${exercise.authorRef.userName}"></span>
-                <a class="deleteExerciseBtn" href="#"
-                   data-th-attr="data-exercise-id=${exercise.id},data-exercise-name=${exercise.name}">
-                    delete
-                </a>
-            </li>
-        </ul>
+
+        <a class="ui button" href="/exercise/create" tabindex="0">
+            Create new exercise
+        </a>
+
+        <table class="ui very basic collapsing celled table">
+            <tbody>
+                <tr th:each="exercise: ${exercises}">
+                    <td>
+                        <h4 class="ui image header">
+                            <div th:text="${exercise.name}" class="content"></div>
+                            <div class="sub header">Once upon a time...</div>
+                        </h4>
+                    </td>
+                    <td>
+                        <i class="user icon"></i>
+                        <span th:text="${exercise.authorRef.userName}"></span>
+                    </td>
+                    <td>
+                        <button class="ui compact red icon button deleteExerciseBtn" h
+                                ref="#"
+                                data-th-attr="data-exercise-id=${exercise.id},data-exercise-name=${exercise.name}">
+                            <i class="trash icon"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 
     <script>
         $('#closeConfirmDialogBtn').click(function() {
-            $('#confirmForm').hide();
+            $('.ui.modal').modal('hide');
         });
         $('.deleteExerciseBtn').click(function () {
             $('#confirmBtn').attr('href', '/exercise/delete/' + $(this).attr('data-exercise-id'));
             $('#confirmExerciseName').text($(this).attr('data-exercise-name'));
-            $('#confirmForm').show();
+            $('.ui.modal').modal('show');
         });
     </script>
 </body>
