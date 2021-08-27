@@ -7,6 +7,24 @@
 <div th:replace="fragments/layout :: header('user')">&nbsp;</div>
 
 <div class="ui segment">
+  <!-- Delete confirmation form -->
+  <div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Confirm
+    </div>
+    <div class="image content">
+      <div class="description">
+        Are you sure you want to delete user with name <span id="confirmUserName"></span>?
+      </div>
+    </div>
+    <div class="actions">
+      <a id="closeConfirmDialogBtn" class="ui button">Cancel</a>
+      <a id="confirmBtn" class="ui red button">Delete</a>
+    </div>
+  </div>
+
+
   <table class="ui very basic collapsing celled table">
     <tbody>
     <tr th:each="user: ${users}">
@@ -20,11 +38,26 @@
         <i class="email icon"></i>
         <span th:text="${user.email}"></span>
       </td>
+      <td>
+        <button class="ui compact red icon button deleteUserBtn"
+                data-th-attr="data-user-id=${user.id},data-user-name=${user.name}">
+          <i class="trash icon"></i>
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>
 
 </div>
-
+<script>
+  $('#closeConfirmDialogBtn').click(function() {
+    $('.ui.modal').modal('hide');
+  });
+  $('.deleteUserBtn').click(function () {
+    $('#confirmBtn').attr('href', '/user/delete/' + $(this).attr('data-user-id'));
+    $('#confirmUserName').text($(this).attr('data-user-name'));
+    $('.ui.modal').modal('show');
+  });
+</script>
 </body>
 </html>
