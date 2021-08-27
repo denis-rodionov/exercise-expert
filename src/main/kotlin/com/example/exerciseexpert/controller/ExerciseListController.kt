@@ -87,4 +87,12 @@ class ExerciseListController : BaseController() {
         model.addAttribute("exercise", exerciseForm)
         return "exercise-edit"
     }
+
+    @GetMapping("view/{id}")
+    fun showViewExercisePage(@PathVariable("id") exerciseId: String, model: Model): String {
+        val exercise = exerciseRepository.findById(exerciseId).orElseThrow()
+
+        model.addAttribute("exercise", exercise)
+        return "exercise-view"
+    }
 }

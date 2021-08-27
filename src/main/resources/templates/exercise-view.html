@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:include="fragments/layout :: headFragment">
+    <title id="pageTitle">View Exercise</title>
+</head>
+<body>
+<div th:replace="fragments/layout :: header">&nbsp;</div>
+
+    <div class="ui segment">
+        <button value="Go back!" onclick="history.back()" class="ui button">Back</button>
+        <h1>Exercise: [[${exercise.name}]]</h1>
+
+        <div th:remove="tag" th:utext="${exercise.exerciseCode}"></div>
+    </div>
+</body>
+</html>

@@ -33,7 +33,7 @@
                 <tr th:each="exercise: ${exercises}">
                     <td>
                         <h4 class="ui image header">
-                            <div th:text="${exercise.name}" class="content"></div>
+                            <a th:text="${exercise.name}" th:href="@{'/exercise/view/' + ${exercise.id}}" class="content"></a>
                             <div class="sub header">Once upon a time...</div>
                         </h4>
                     </td>

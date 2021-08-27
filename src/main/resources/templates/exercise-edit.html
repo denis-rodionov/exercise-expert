@@ -19,7 +19,7 @@
 
       <div class="field">
         <label>Exercise Code</label>
-        <input type="text" name="exerciseCode" th:field="*{exerciseCode}" placeholder="Insert here HTML code of exercise" tabindex="1">
+        <textarea name="exerciseCode" th:field="*{exerciseCode}" placeholder="Insert here HTML code of exercise" tabindex="1"></textarea>
         <p th:if="${#fields.hasErrors('exerciseCode')}" th:errorclass="validation-error" th:errors="*{exerciseCode}" ></p>
       </div>
 
