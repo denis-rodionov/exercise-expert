@@ -30,7 +30,7 @@ class ExerciseListController : BaseController() {
     @GetMapping("/create")
     fun createExerciseForm(@ModelAttribute userContext: UserContext, model: Model): String {
         model.addAttribute("exercise", ExerciseForm())
-        return "exercise-view"
+        return "exercise-edit"
     }
 
     @PostMapping
@@ -40,7 +40,7 @@ class ExerciseListController : BaseController() {
                        @ModelAttribute userContext: UserContext,): String {
         logger.info("DEBUG: save exercise $exercise")
         if (errors.hasErrors()) {
-            return "exercise-view"
+            return "exercise-edit"
         }
         logger.info("User ${userContext.user} saving exercise...")
 
@@ -85,6 +85,6 @@ class ExerciseListController : BaseController() {
             exerciseCode = exercise.exerciseCode
         )
         model.addAttribute("exercise", exerciseForm)
-        return "exercise-view"
+        return "exercise-edit"
     }
 }
