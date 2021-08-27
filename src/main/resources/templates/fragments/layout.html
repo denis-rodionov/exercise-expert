@@ -9,9 +9,12 @@
   <script th:src="@{/js/semantic.min.js}"></script>
 </head>
 <body>
-  <div th:fragment="header" class="ui pointing menu">
-    <a class="active item">
-      Exercise Constructor
+  <div th:fragment="header(menu)" class="ui pointing menu">
+    <a th:class="(${menu} == 'exercise' ? 'active': '') +  ' item'" href="/exercise">
+      Exercises
+    </a>
+    <a th:class="(${menu} == 'user' ? 'active': '') +  ' item'" href="/user">
+      Users
     </a>
     <div class="right menu">
       <div th:if="${userContext.user}" class="ui item">
