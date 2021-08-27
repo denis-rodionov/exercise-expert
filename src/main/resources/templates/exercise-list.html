@@ -42,8 +42,11 @@
                         <span th:text="${exercise.authorRef.userName}"></span>
                     </td>
                     <td>
-                        <button class="ui compact red icon button deleteExerciseBtn" h
-                                ref="#"
+                        <a class="ui compact blue icon button" th:href="@{'/exercise/edit/' + ${exercise.id}}"
+                                data-th-attr="data-exercise-id=${exercise.id},data-exercise-name=${exercise.name}">
+                            <i class="edit icon"></i>
+                        </a>
+                        <button class="ui compact red icon button deleteExerciseBtn"
                                 data-th-attr="data-exercise-id=${exercise.id},data-exercise-name=${exercise.name}">
                             <i class="trash icon"></i>
                         </button>

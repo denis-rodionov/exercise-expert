@@ -7,15 +7,20 @@
   <div th:replace="fragments/layout :: header">&nbsp;</div>
 
   <div class="ui segment">
-    <h1>New Exercise</h1>
-    <form method="post" th:object="${newExercise}" th:action="@{/exercise}" class="ui form">
+
+    <h1 th:text="${exercise.new} ? 'New Exercise' : 'Edit Exercise'">New Exercise</h1>
+
+    <form method="post" th:object="${exercise}" th:action="@{/exercise}" class="ui form">
       <div class="field">
         <label>Name</label>
         <input type="text" name="name" th:field="*{name}" placeholder="Exercise Name" tabindex="0">
         <p th:if="${#fields.hasErrors('name')}" th:errorclass="validation-error" th:errors="*{name}" ></p>
       </div>
       <a class="ui button" href="/exercise">Cancel</a>
-      <button class="ui submit primary button">Create</button>
+
+      <input type="hidden" name="id" th:field="*{id}">
+      <input type="hidden" name="new" th:field="*{new}">
+      <button th:text="${exercise.new} ? 'Create' : 'Update'" class="ui submit primary button">Create</button>
     </form>
   </div>
 </body>
