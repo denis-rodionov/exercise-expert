@@ -4,21 +4,37 @@
     <title id="pageTitle">Login</title>
 </head>
 <body>
-<h1>Login</h1>
-<div th:if="${(param.error)}" class="validation-error">
-    Unable to login. Check your username and password.
-</div>
-<p>New here? Click
-    <a th:href="@{/auth/register}">here</a> to register.</p>
-<!-- tag::thAction[] -->
-<form method="POST" th:action="@{/login}" id="loginForm">
-    <!-- end::thAction[] -->
-    <label for="email">Email: </label>
-    <input type="text" name="email" id="email" /><br/>
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui image header">
+                <div class="content">
+                    Log-in to your account
+                </div>
+            </h2>
+            <form th:action="@{/login}" id="loginForm" method="post" class="ui large form">
+                <div class="ui stacked secondary  segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="email" placeholder="E-mail address">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <button class="ui fluid large teal submit button">Login</button>
 
-    <label for="password">Password: </label>
-    <input type="password" name="password" id="password"/><br/>
-    <input type="submit" value="Login"/>
-</form>
+                    <div th:if="${(param.error)}" class="ui error message visible">Unable to login. Check your username and password.</div>
+                </div>
+            </form>
+
+            <div class="ui message">
+                New to us? <a th:href="@{/auth/register}">Register</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
