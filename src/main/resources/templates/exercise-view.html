@@ -16,6 +16,13 @@
         <input type="text" name="name" th:field="*{name}" placeholder="Exercise Name" tabindex="0">
         <p th:if="${#fields.hasErrors('name')}" th:errorclass="validation-error" th:errors="*{name}" ></p>
       </div>
+
+      <div class="field">
+        <label>Exercise Code</label>
+        <input type="text" name="exerciseCode" th:field="*{exerciseCode}" placeholder="Insert here HTML code of exercise" tabindex="1">
+        <p th:if="${#fields.hasErrors('exerciseCode')}" th:errorclass="validation-error" th:errors="*{exerciseCode}" ></p>
+      </div>
+
       <a class="ui button" href="/exercise">Cancel</a>
 
       <input type="hidden" name="id" th:field="*{id}">

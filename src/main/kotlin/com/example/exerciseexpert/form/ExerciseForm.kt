@@ -8,5 +8,7 @@ data class ExerciseForm(
 
     var new: Boolean = true,
 
-    var id: String? = null
+    var id: String? = null,
+
+    var exerciseCode: String? = null,
 )

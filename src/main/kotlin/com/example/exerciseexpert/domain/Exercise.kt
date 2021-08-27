@@ -10,6 +10,8 @@ data class Exercise(
 
         var authorRef: UserName?,
 
-        var author: String
+        var author: String,
+
+        var exerciseCode: String?
     )
 

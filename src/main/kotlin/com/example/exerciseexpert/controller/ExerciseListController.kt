@@ -47,8 +47,12 @@ class ExerciseListController : BaseController() {
         val author: User =  userContext.user ?: throw Exception("User not found")
 
         if (exercise.new) {
-            val newExercise = Exercise(null, exercise.name!!,
-                UserName(null, author.name, author.id!!), author.name)
+            val newExercise = Exercise(null,
+                exercise.name!!,
+                UserName(null, author.name, author.id!!),
+                author.name,
+                exercise.exerciseCode
+            )
             exerciseRepository.save(newExercise)
         } else {
             var exerciseId = exercise.id ?: throw Exception("Exercise ID not found")
@@ -56,6 +60,7 @@ class ExerciseListController : BaseController() {
                 .orElseThrow()
             logger.info(existingExercise.toString())
             existingExercise.name = exercise.name!!
+            existingExercise.exerciseCode = exercise.exerciseCode
             exerciseRepository.save(existingExercise)
         }
 
@@ -76,7 +81,8 @@ class ExerciseListController : BaseController() {
         var exerciseForm = ExerciseForm(
             name = exercise.name,
             new = false,
-            id = exerciseId
+            id = exerciseId,
+            exerciseCode = exercise.exerciseCode
         )
         model.addAttribute("exercise", exerciseForm)
         return "exercise-view"
