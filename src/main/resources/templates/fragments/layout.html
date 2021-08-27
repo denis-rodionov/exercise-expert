@@ -3,8 +3,10 @@
 <head th:fragment="headFragment" th:lang="en">
   <title th:include=":: #pageTitle">Layout Generic Title</title>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-  <link rel="stylesheet" th:href="@{/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/semantic.min.css}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script th:src="@{/js/semantic.min.js}"></script>
 </head>
 <body>
   <nav th:fragment="header">
