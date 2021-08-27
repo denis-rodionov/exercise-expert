@@ -5,17 +5,18 @@
 </head>
 <body>
   <div th:replace="fragments/layout :: header">&nbsp;</div>
-  <h1>Create Exercise</h1>
-  <form method="post" th:object="${newExercise}" th:action="@{/exercise}">
-    <ul>
-      <li>
-        <label for="name">name:</label>
-        <input type="text" id="name" th:field="*{name}">
+
+  <div class="ui segment">
+    <h1>New Exercise</h1>
+    <form method="post" th:object="${newExercise}" th:action="@{/exercise}" class="ui form">
+      <div class="field">
+        <label>Name</label>
+        <input type="text" name="name" th:field="*{name}" placeholder="Exercise Name" tabindex="0">
         <p th:if="${#fields.hasErrors('name')}" th:errorclass="validation-error" th:errors="*{name}" ></p>
-      </li>
-    </ul>
-    <button type="submit">Submit</button>
-  </form>
-  <a href="/exercise">To exercise list</a>
+      </div>
+      <a class="ui button" href="/exercise">Cancel</a>
+      <button type="submit" class="ui primary button">Create</button>
+    </form>
+  </div>
 </body>
 </html>
