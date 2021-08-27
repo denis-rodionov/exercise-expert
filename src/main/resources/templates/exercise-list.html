@@ -5,24 +5,28 @@
 </head>
 <body>
     <div th:replace="fragments/layout :: header">&nbsp;</div>
-    <div th:text="${error}" class="validation-error"></div>
-    <div id="confirmForm" style="display: none;">
-        Are you sure you want to delete <span id="confirmExerciseName"></span> exercise?
-        <a id="confirmBtn">delete</a>
-        <a id="closeConfirmDialogBtn" href="#">cancel</a>
+
+    <div class="ui segment">
+        <div th:text="${error}" class="validation-error"></div>
+        <div id="confirmForm" style="display: none;">
+            Are you sure you want to delete <span id="confirmExerciseName"></span> exercise?
+            <a id="confirmBtn">delete</a>
+            <a id="closeConfirmDialogBtn" href="#">cancel</a>
+        </div>
+        <a href="/exercise/create">Create new exercise</a>
+        <ul>
+            <li th:each="exercise: ${exercises}">
+                <span th:text="${exercise.name}"></span>
+                , created by
+                <span th:text="${exercise.authorRef.userName}"></span>
+                <a class="deleteExerciseBtn" href="#"
+                   data-th-attr="data-exercise-id=${exercise.id},data-exercise-name=${exercise.name}">
+                    delete
+                </a>
+            </li>
+        </ul>
     </div>
-    <a href="/exercise/create">Create new exercise</a>
-    <ul>
-        <li th:each="exercise: ${exercises}">
-            <span th:text="${exercise.name}"></span>
-            , created by
-            <span th:text="${exercise.authorRef.userName}"></span>
-            <a class="deleteExerciseBtn" href="#"
-               data-th-attr="data-exercise-id=${exercise.id},data-exercise-name=${exercise.name}">
-                delete
-            </a>
-        </li>
-    </ul>
+
 
     <script>
         $('#closeConfirmDialogBtn').click(function() {

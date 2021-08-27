@@ -9,13 +9,18 @@
   <script th:src="@{/js/semantic.min.js}"></script>
 </head>
 <body>
-  <nav th:fragment="header">
-    <div th:if="${userContext.user}">
-      Logged in as <span th:text="${userContext.user.name}"></span> | <a href="/auth/logout">Log out</a>
+  <div th:fragment="header" class="ui pointing menu">
+    <a class="active item">
+      Exercise Constructor
+    </a>
+    <div class="right menu">
+      <div th:if="${userContext.user}" class="ui item">
+        <span th:text="${userContext.user.name}"></span>&nbsp|&nbsp<a href="/auth/logout">Log out</a>
+      </div>
+      <div th:unless="${userContext.user}">
+        Not logged in
+      </div>
     </div>
-    <div th:unless="${userContext.user}">
-      Not logged in
-    </div>
-  </nav>
+  </div>
 </body>
 </html>
