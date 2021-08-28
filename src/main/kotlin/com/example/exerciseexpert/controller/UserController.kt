@@ -1,13 +1,13 @@
 package com.example.exerciseexpert.controller
 
+import com.example.exerciseexpert.domain.User
+import com.example.exerciseexpert.form.UserEditForm
 import com.example.exerciseexpert.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.stereotype.Repository
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 
 @Controller
 @RequestMapping("/user")
@@ -30,6 +30,28 @@ class UserController: BaseController() {
     fun deleteExercise(@PathVariable("id") userId: String): String {
         logger.info("DEBUG: deleting user with ID=$userId")
         userRepository.deleteById(userId)
+        return "redirect:/user"
+    }
+
+    @GetMapping("edit/{id}")
+    fun showEditUserForm(@PathVariable("id") userId: String, model: Model): String {
+        val user = userRepository.findById(userId).orElseThrow {
+            Exception("User with id $userId not found")
+        }
+        val userForm = UserEditForm(user.id!!, user.name, user.email, "", user.role)
+        model.addAttribute("user", userForm)
+        return "user-edit"
+    }
+
+    @PostMapping
+    fun saveUser(@ModelAttribute user: UserEditForm): String {
+        var domainUser = userRepository.findById(user.id).orElseThrow()
+        logger.info("DEBUG: user role $user.role")
+        domainUser.role = user.role
+        user.password?.let {
+            domainUser.userPassword = it
+        }
+        userRepository.save(domainUser)
         return "redirect:/user"
     }
 }

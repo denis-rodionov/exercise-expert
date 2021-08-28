@@ -30,16 +30,13 @@
     <tr th:each="user: ${users}">
       <td>
         <h4 class="ui image header">
-          <a th:text="${user.name}"  class="content"></a>
-          <div class="sub header">Admin</div>
+          <a th:text="${user.name}"  class="content" th:href="@{'/user/edit/' + ${user.id}}"></a>
+          <span class="sub header" th:text="${user.role}"></span>
         </h4>
       </td>
       <td>
         <i class="email icon"></i>
         <span th:text="${user.email}"></span>
-      </td>
-      <td>
-        <span th:text="${user.role}"></span>
       </td>
       <td>
         <button class="ui compact red icon button deleteUserBtn"

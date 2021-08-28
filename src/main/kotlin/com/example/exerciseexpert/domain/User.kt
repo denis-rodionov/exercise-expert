@@ -11,8 +11,8 @@ data class User(
     var id: String? = null,
     val name: String,
     val email: String,
-    val userPassword: String,
-    val role: UserRole?
+    var userPassword: String,
+    var role: UserRole?
 ) : UserDetails {
     override fun toString(): String {
         return "User $name, role: $role, password: $password"

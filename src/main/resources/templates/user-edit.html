@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:include="fragments/layout :: headFragment">
+  <title id="pageTitle">Edit User</title>
+</head>
+<body>
+<div th:replace="fragments/layout :: header('user')">&nbsp;</div>
+
+<div class="ui segment">
+
+  <h1>Edit User</h1>
+
+  <form method="post" th:object="${user}" th:action="@{/user}" class="ui form">
+    <div class="disabled field">
+      <label>User name</label>
+      <input type="text" name="name" th:field="*{name}">
+    </div>
+
+    <div class="disabled field">
+      <label>User Email</label>
+      <input type="text" name="email" th:field="*{email}">
+    </div>
+
+    <div class="field">
+      <label>Change user password</label>
+      <input type="text" name="email" th:field="*{password}">
+    </div>
+
+    <div class="field">
+      <label>Role</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="role" th:field="*{role}">
+        <i class="dropdown icon"></i>
+        <div class="default text">Role</div>
+        <div class="menu">
+          <div class="item" data-value="ADMIN" data-text="Administrator">Administrator</div>
+          <div class="item" data-value="TEACHER">Teacher</div>
+          <div class="item" data-value="STUDENT">Student</div>
+        </div>
+      </div>
+    </div>
+
+    <a class="ui button" href="/user">Cancel</a>
+
+    <input type="hidden" name="id" th:field="*{id}">
+    <button class="ui submit primary button">Save</button>
+  </form>
+</div>
+
+<script>
+  $('.ui.dropdown').dropdown();
+</script>
+</body>
+</html>
