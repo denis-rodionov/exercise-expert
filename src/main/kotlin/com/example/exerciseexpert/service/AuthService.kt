@@ -18,7 +18,8 @@ class AuthService @Autowired constructor() : UserDetailsService {
     lateinit var userRepository: UserRepository
 
     override fun loadUserByUsername(username: String): UserDetails {
-        logger.info("Login attempt: $username")
+        val user = userRepository.findByEmail(username)
+        logger.info("Login attempt: $username, $user")
         return userRepository.findByEmail(username) ?:
             throw UsernameNotFoundException("User with email $username not found")
     }

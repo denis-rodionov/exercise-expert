@@ -47,7 +47,9 @@ class UserController: BaseController() {
         logger.info("DEBUG: user role $user.role")
         domainUser.role = user.role
         user.password?.let {
-            domainUser.userPassword = it
+            if (it.isNotBlank()) {
+                domainUser.userPassword = it
+            }
         }
         userRepository.save(domainUser)
         return "redirect:/user"

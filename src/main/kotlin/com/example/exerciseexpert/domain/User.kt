@@ -16,7 +16,7 @@ data class User(
     var role: UserRole?
 ) : UserDetails {
     override fun toString(): String {
-        return "User $name, role: $role, password: $password"
+        return "User $name, role: $role, password: $userPassword"
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
@@ -39,7 +39,7 @@ data class User(
     }
 
     override fun getPassword(): String {
-        return "{noop}qwe"
+        return "{noop}$userPassword"
     }
 
     override fun getUsername(): String {
