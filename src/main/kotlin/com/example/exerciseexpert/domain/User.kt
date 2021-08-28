@@ -1,5 +1,6 @@
 package com.example.exerciseexpert.domain
 
+import com.example.exerciseexpert.domain.emums.UserRole
 import org.springframework.data.annotation.Id
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -10,10 +11,11 @@ data class User(
     var id: String? = null,
     val name: String,
     val email: String,
-    val userPassword: String
+    val userPassword: String,
+    val role: UserRole?
 ) : UserDetails {
     override fun toString(): String {
-        return name
+        return "User $name, role: $role, password: $password"
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {

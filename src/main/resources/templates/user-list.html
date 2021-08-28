@@ -39,6 +39,9 @@
         <span th:text="${user.email}"></span>
       </td>
       <td>
+        <span th:text="${user.role}"></span>
+      </td>
+      <td>
         <button class="ui compact red icon button deleteUserBtn"
                 data-th-attr="data-user-id=${user.id},data-user-name=${user.name}">
           <i class="trash icon"></i>

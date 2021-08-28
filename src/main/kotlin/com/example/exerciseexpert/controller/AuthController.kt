@@ -1,6 +1,7 @@
 package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.User
+import com.example.exerciseexpert.domain.emums.UserRole
 import com.example.exerciseexpert.form.RegisterData
 import com.example.exerciseexpert.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -53,7 +54,7 @@ class AuthController : BaseController() {
             return "register"
         }
 
-        userRepository.save(User(null, registerData.name!!, registerData.email!!, registerData.password!!))
+        userRepository.save(User(null, registerData.name!!, registerData.email!!, registerData.password!!, UserRole.STUDENT))
         logger.info("New user is saved: ${registerData.name}")
         return "redirect:/login"
     }

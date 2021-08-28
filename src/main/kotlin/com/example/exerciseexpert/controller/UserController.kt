@@ -19,6 +19,9 @@ class UserController: BaseController() {
     @GetMapping
     fun showUserListPage(model: Model): String {
         val users = userRepository.findAll()
+        users.forEach {
+            logger.info("DEBUG: $it")
+        }
         model.addAttribute("users", users)
         return "user-list"
     }
