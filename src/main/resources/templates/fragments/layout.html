@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:fragment="headFragment" th:lang="en">
   <title th:include=":: #pageTitle">Layout Generic Title</title>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
@@ -9,11 +9,11 @@
   <script th:src="@{/js/semantic.min.js}"></script>
 </head>
 <body>
-  <div th:fragment="header(menu)" class="ui pointing menu">
+  <div sec:authorize="hasAuthority('TEACHER')" th:fragment="header(menu)" class="ui pointing menu">
     <a th:class="(${menu} == 'exercise' ? 'active': '') +  ' item'" href="/exercise">
       Exercises
     </a>
-    <a th:class="(${menu} == 'user' ? 'active': '') +  ' item'" href="/user">
+    <a sec:authorize="hasAuthority('ADMIN')" th:class="(${menu} == 'user' ? 'active': '') +  ' item'" href="/user">
       Users
     </a>
     <div class="right menu">
