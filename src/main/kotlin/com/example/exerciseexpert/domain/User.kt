@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.lang.Exception
 
 data class User(
     @Id
@@ -19,7 +20,22 @@ data class User(
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableListOf(SimpleGrantedAuthority("ROLE_USER"))
+        if (role == UserRole.ADMIN) {
+            return mutableListOf(
+                SimpleGrantedAuthority(UserRole.ADMIN.toString()),
+                SimpleGrantedAuthority(UserRole.TEACHER.toString()),
+                SimpleGrantedAuthority(UserRole.STUDENT.toString())
+            )
+        } else if (role == UserRole.TEACHER) {
+            return mutableListOf(
+                SimpleGrantedAuthority(UserRole.TEACHER.toString()),
+                SimpleGrantedAuthority(UserRole.STUDENT.toString())
+            )
+        } else if (role == UserRole.STUDENT) {
+            return mutableListOf(SimpleGrantedAuthority(UserRole.STUDENT.toString()))
+        } else {
+            throw Exception("Unknow role $role")
+        }
     }
 
     override fun getPassword(): String {
