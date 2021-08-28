@@ -7,37 +7,37 @@
 
 
 <div class="ui segment">
-    <h1>Sign in</h1>
-    <form method="post" th:object="${registerData}" th:action="@{/auth/register}" class="ui form">
-        <div class="field">
-            <label>Name</label>
-            <input name="name" type="text" th:field="*{name}">
-            <p th:if="${#fields.hasErrors('name')}" th:errorclass="validation-error" th:errors="*{name}" ></p>
-        </div>
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h1>Sign in</h1>
+            <form method="post" th:object="${registerData}" th:action="@{/auth/register}" class="ui form">
+                <div class="field">
+                    <input name="name" type="text" th:field="*{name}" placeholder="Name">
+                    <p th:if="${#fields.hasErrors('name')}" th:errorclass="validation-error" th:errors="*{name}" ></p>
+                </div>
 
-        <div class="field">
-            <label>Email</label>
-            <input name="email" type="text" th:field="*{email}">
-            <p th:if="${#fields.hasErrors('email')}" th:errorclass="validation-error" th:errors="*{email}" ></p>
-        </div>
+                <div class="field">
+                    <input name="email" type="text" th:field="*{email}" placeholder="Email">
+                    <p th:if="${#fields.hasErrors('email')}" th:errorclass="validation-error" th:errors="*{email}" ></p>
+                </div>
 
-        <div class="field">
-            <label>Password</label>
-            <input name="password" type="password" th:field="*{password}">
-            <p th:if="${#fields.hasErrors('password')}" th:errorclass="validation-error" th:errors="*{password}" ></p>
-        </div>
+                <div class="field">
+                    <input name="password" type="password" th:field="*{password}" placeholder="Password">
+                    <p th:if="${#fields.hasErrors('password')}" th:errorclass="validation-error" th:errors="*{password}" ></p>
+                </div>
 
-        <div class="field">
-            <label>Confirm password</label>
-            <input name="confirmPassword" type="password" th:field="*{confirmPassword}">
-            <p th:if="${#fields.hasErrors('confirmPassword')}" th:errorclass="validation-error" th:errors="*{confirmPassword}" ></p>
-        </div>
+                <div class="field">
+                    <input name="confirmPassword" type="password" th:field="*{confirmPassword}" placeholder="Repeat password">
+                    <p th:if="${#fields.hasErrors('confirmPassword')}" th:errorclass="validation-error" th:errors="*{confirmPassword}" ></p>
+                </div>
 
-      <button class="ui submit primary button">Sign up</button>
-      <div class="ui message">
-        Already with us? <a href="/login">Sign in</a>
-      </div>
-    </form>
+              <button class="ui submit primary button">Sign up</button>
+              <div class="ui message">
+                Already with us? <a href="/login">Sign in</a>
+              </div>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
