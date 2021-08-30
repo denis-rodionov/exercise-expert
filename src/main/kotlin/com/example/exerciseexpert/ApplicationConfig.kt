@@ -24,7 +24,8 @@ class ApplicationConfig : AbstractMongoClientConfiguration() {
     @Bean
     override fun mongoClient(): MongoClient {
         val connectionString =
-            ConnectionString("mongodb+srv://kotlin:123@cluster0.jtkhl.mongodb.net/Cluster0?retryWrites=true&w=majority")
+            //ConnectionString("mongodb+srv://kotlin:123@cluster0.jtkhl.mongodb.net/Cluster0?retryWrites=true&w=majority")
+            ConnectionString("mongodb://kotlin:123@cluster0-shard-00-00.jtkhl.mongodb.net:27017,cluster0-shard-00-01.jtkhl.mongodb.net:27017,cluster0-shard-00-02.jtkhl.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-t0laxf-shard-0&authSource=admin&retryWrites=true&w=majority")
         val settings = MongoClientSettings.builder()
             .applyConnectionString(connectionString)
             .build()

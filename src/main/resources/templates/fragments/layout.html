@@ -10,10 +10,10 @@
 </head>
 <body>
   <div sec:authorize="hasAuthority('TEACHER')" th:fragment="header(menu)" class="ui pointing menu">
-    <a th:class="(${menu} == 'exercise' ? 'active': '') +  ' item'" href="/exercise">
+    <a th:class="(${menu == 'exercise'} ? 'active': '') +  ' item'" href="/exercise">
       Exercises
     </a>
-    <a sec:authorize="hasAuthority('ADMIN')" th:class="(${menu} == 'user' ? 'active': '') +  ' item'" href="/user">
+    <a sec:authorize="hasAuthority('ADMIN')" th:class="(${menu == 'user'} ? 'active': '') +  ' item'" href="/user">
       Users
     </a>
     <div class="right menu">

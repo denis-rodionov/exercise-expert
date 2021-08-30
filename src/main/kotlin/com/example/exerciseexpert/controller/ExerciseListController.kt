@@ -57,7 +57,7 @@ class ExerciseListController : BaseController() {
         } else {
             var exerciseId = exercise.id ?: throw Exception("Exercise ID not found")
             val existingExercise = exerciseRepository.findById(exerciseId)
-                .orElseThrow()
+                .orElseThrow { Exception("Exercise not found by id $exerciseId") }
             logger.info(existingExercise.toString())
             existingExercise.name = exercise.name!!
             existingExercise.exerciseCode = exercise.exerciseCode
@@ -76,7 +76,8 @@ class ExerciseListController : BaseController() {
     @GetMapping("edit/{id}")
     fun showEditExercisePage(@PathVariable("id") exerciseId: String, model: Model): String {
         logger.info("Edit exercise $exerciseId")
-        val exercise = exerciseRepository.findById(exerciseId).orElseThrow()
+        val exercise = exerciseRepository.findById(exerciseId).orElseThrow {
+            Exception("Exercise not found by id $exerciseId") }
 
         var exerciseForm = ExerciseForm(
             name = exercise.name,
@@ -90,7 +91,8 @@ class ExerciseListController : BaseController() {
 
     @GetMapping("view/{id}")
     fun showViewExercisePage(@PathVariable("id") exerciseId: String, model: Model): String {
-        val exercise = exerciseRepository.findById(exerciseId).orElseThrow()
+        val exercise = exerciseRepository.findById(exerciseId).orElseThrow {
+            Exception("Exercise not found by id $exerciseId") }
 
         model.addAttribute("exercise", exercise)
         return "exercise-view"
