@@ -1,6 +1,5 @@
 package com.example.exerciseexpert.service
 
-import com.example.exerciseexpert.controller.BaseController
 import com.example.exerciseexpert.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

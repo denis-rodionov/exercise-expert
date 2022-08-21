@@ -9,12 +9,15 @@
   <script th:src="@{/js/semantic.min.js}"></script>
 </head>
 <body>
-  <div sec:authorize="hasAuthority('TEACHER')" th:fragment="header(menu)" class="ui pointing menu">
-    <a th:class="(${menu == 'exercise'} ? 'active': '') +  ' item'" href="/exercise">
+  <div th:fragment="header(menu)" class="ui pointing menu">
+    <a sec:authorize="hasAuthority('TEACHER')" th:class="(${menu == 'exercise'} ? 'active': '') +  ' item'" href="/exercise">
       Exercises
     </a>
     <a sec:authorize="hasAuthority('ADMIN')" th:class="(${menu == 'user'} ? 'active': '') +  ' item'" href="/user">
       Users
+    </a>
+    <a sec:authorize="hasAuthority('TEACHER')" th:class="(${menu == 'students'} ? 'active': '') +  ' item'" href="/student">
+      Students
     </a>
     <div class="right menu">
       <div th:if="${userContext.user}" class="ui item">
