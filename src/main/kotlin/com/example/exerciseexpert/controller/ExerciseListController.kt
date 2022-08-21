@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
+import java.time.Instant
+import java.time.ZonedDateTime
 import javax.validation.Valid
 
 
@@ -45,13 +47,16 @@ class ExerciseListController : BaseController() {
         logger.info("User ${userContext.user} saving exercise...")
 
         val author: User =  userContext.user ?: throw Exception("User not found")
+        val exerciseCode = exercise.exerciseCode ?: throw Exception("Exercise code is empty")
 
         if (exercise.new) {
             val newExercise = Exercise(null,
                 exercise.name!!,
                 UserName(null, author.name, author.id!!),
                 author.name,
-                exercise.exerciseCode
+                exerciseCode,
+                Instant.now(),
+                Instant.now(),
             )
             exerciseRepository.save(newExercise)
         } else {
@@ -60,7 +65,8 @@ class ExerciseListController : BaseController() {
                 .orElseThrow { Exception("Exercise not found by id $exerciseId") }
             logger.info(existingExercise.toString())
             existingExercise.name = exercise.name!!
-            existingExercise.exerciseCode = exercise.exerciseCode
+            existingExercise.exerciseCode = exerciseCode
+            existingExercise.updatedAt = Instant.now()
             exerciseRepository.save(existingExercise)
         }
 

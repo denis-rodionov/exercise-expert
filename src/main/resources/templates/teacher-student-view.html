@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/layout :: headFragment">
+  <title id="pageTitle">Student View</title>
+</head>
+
+<body>
+  <div th:replace="fragments/layout :: header('students')">&nbsp;</div>
+
+  <div class="ui segment">
+    <h1>[[${student.name}]]</h1>
+
+    <h3>Assigned Exercises:</h3>
+    <div th:if="${#lists.isEmpty(assignedExercises)}">
+      <span class="ui tag label">Nothing is assigned yet</span>
+    </div>
+    <table class="ui very basic collapsing celled table">
+      <tbody>
+      <tr th:each="assignedExercise: ${assignedExercises}">
+        <td>
+          <h4 class="ui image header">
+            <a th:text="${assignedExercise.name}"  class="content" th:href="@{'/user/edit/' + ${user.id}}"></a>
+            <span class="sub header" th:text="${assignedExercise.assignedAt}"></span>
+          </h4>
+        </td>
+        <td>
+          <button class="ui compact red icon button deleteUserBtn"
+                  data-th-attr="data-user-id=${exercise.id},data-user-name=${user.name}">
+            <i class="trash icon"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- TODO: registration date, assigned, done, reviewed exercises, activity chart. Actions: assign/review/unassign exercise, message, -->
+  </div>
+</body>
+</html>

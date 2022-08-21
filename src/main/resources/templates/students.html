@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/layout :: headFragment">
-  <title id="pageTitle">User List</title>
+  <title id="pageTitle">Student List</title>
 </head>
 <body>
   <div th:replace="fragments/layout :: header('students')">&nbsp;</div>
 
   <div class="ui segment">
-    <h1>Студенты</h1>
 
     <!-- Student list -->
     <table class="ui very basic collapsing celled table">
@@ -15,7 +14,7 @@
       <tr th:each="student: ${students}">
         <td>
           <h4 class="ui image header">
-            <a th:text="${student.name}"  class="content" th:href="@{'/user/edit/' + ${student.id}}"></a>
+            <a th:text="${student.name}"  class="content" th:href="@{'/student/' + ${student.id}}"></a>
           </h4>
         </td>
       </tr>
