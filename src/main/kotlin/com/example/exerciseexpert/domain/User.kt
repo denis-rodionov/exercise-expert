@@ -34,7 +34,7 @@ data class User(
         } else if (role == UserRole.STUDENT) {
             return mutableListOf(SimpleGrantedAuthority(UserRole.STUDENT.toString()))
         } else {
-            throw Exception("Unknow role $role")
+            throw Exception("Unknown role $role")
         }
     }
 

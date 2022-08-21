@@ -8,6 +8,9 @@ Build Spring native image:
 
 Run image: `docker run --rm -p 8080:8080 docker.io/library/exercise-expert:0.0.1-SNAPSHOT`
 
+To assign admin rights from mongosh:
+`db.user.update({"_id" : ObjectId("XXXX")},{$set: { "role" : "ADMIN"}});`
+
 [Spring Native Docs](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/)
 
 
