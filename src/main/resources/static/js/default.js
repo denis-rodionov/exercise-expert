@@ -15,3 +15,15 @@ function showSuccessMessage(msg) {
         time: 2, // time
     })
 }
+
+function showErrorMessage(msg) {
+    $.uiAlert({
+        textHead: "Something went wrong", // header
+        text: 'msg', // Text
+        bgcolor: '#DB2828', // background-color
+        textcolor: '#fff', // color
+        position: 'bottom-left',// position . top And bottom ||  left / center / right
+        icon: 'remove circle', // icon in semantic-UI
+        time: 3, // time
+    })
+}

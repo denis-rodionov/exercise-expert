@@ -6,15 +6,14 @@
 <body>
     <div th:replace="fragments/layout :: header('dashboard')">&nbsp;</div>
 
-    <a class="ui left labeled icon button" th:href="@{'/dashboard'}">
-        <i class="left arrow icon"></i>
-        Back
-    </a>
-
-    <h1>Exercise: [[${assignedExercise.name}]]</h1>
-
-    <!-- Exercise is not yet done -->
     <div class="ui segment">
+        <a class="ui left labeled icon button" th:href="@{'/dashboard'}">
+            <i class="left arrow icon"></i>
+            Back
+        </a>
+
+        <h1>[[${assignedExercise.name}]]</h1>
+
         <div class="ui list">
             <div class="item">
                 <i class="info circle icon"></i>
@@ -51,6 +50,32 @@
     <div th:if="${assignedExercise.result == null}" th:utext="${exercise.exerciseCode}" class="ui segment"></div>
     <div th:if="${assignedExercise.result != null}" th:utext="${assignedExercise.result}" class="ui segment"></div>
 
+    <div class="ui segment">
+        <div class="ui comments">
+            <div th:each="comment: ${comments}" class="comment">
+                <div class="content">
+                    <a class="author" th:text="${comment.authorName}"></a>
+                    <div class="metadata">
+                        <div class="date" th:text="${#temporals.format(exercise.createdAt, 'dd MMMM yyyy')}"></div>
+                    </div>
+                    <div class="text" th:text="${comment.message}"></div>
+                    <div class="actions">
+                        <a class="reply deleteMessage" data-th-attr="data-message-id=${comment.id}">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form th:action="@{'/message?returnUrl=/assigned-exercise/' + ${assignedExercise.id} + '/student'}" method="post" class="ui reply form">
+            <div class="field">
+                <textarea id="message" name="message"></textarea>
+            </div>
+            <input type="hidden" id="assignedExerciseId" name="assignedExerciseId" th:value="${assignedExercise.id}">
+            <button class="ui primary submit labeled icon button" type="subnit">
+                <i class="icon edit"></i> Add Comment
+            </button>
+        </form>
+    </div>
+
     <script>
         $("#ew-check-results").text("Check");
         // Replacing the function, which is called by exercise Check button
@@ -60,7 +85,6 @@
             let resultText = generateAnswer(score, total);
 
             let exerciseTag = $('.ew-exercise').parent();
-            //let cssTag = exerciseTag.siblings('style')
 
             let resultHtml = exerciseTag.html();
             console.log("TEXT:\n" + resultText + "\n\nResult HTML:\n" + resultHtml);
@@ -78,6 +102,22 @@
                     location.reload();
                 });
         }
+
+        $(".deleteMessage").click(function () {
+            let button = $(this);
+            let messageId = button.attr('data-message-id');
+            $.ajax({
+                url: '/message/' + messageId,
+                type: 'DELETE',
+                success: function(result) {
+                    showSuccessMessage("The message was deleted");
+                    button.parent().parent().parent().remove();
+                },
+                error: function () {
+                    showErrorMessage("Could not delete the comment!");
+                }
+            });
+        });
     </script>
 </body>
 </html>

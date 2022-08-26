@@ -2,6 +2,7 @@ package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.repository.AssignedExerciseRepository
 import com.example.exerciseexpert.repository.ExerciseRepository
+import com.example.exerciseexpert.repository.MessageRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -18,6 +19,9 @@ class AssignedExerciseController: BaseController() {
     @Autowired
     lateinit var exerciseRepository: ExerciseRepository
 
+    @Autowired
+    lateinit var messageRepository: MessageRepository
+
     @GetMapping("{assignedExerciseId}/student")
     fun showAssignedExerciseForStudent(@PathVariable assignedExerciseId: String, model: Model): String {
         val assignedExercise = assignedExerciseRepository.findById(assignedExerciseId).orElseThrow {
@@ -26,9 +30,12 @@ class AssignedExerciseController: BaseController() {
         val exercise = exerciseRepository.findById(assignedExercise.exerciseId).orElseThrow {
             throw Exception("Could not find exercise with id ${assignedExercise.id}")
         }
+        val comments = messageRepository.findByAssignedExerciseIdOrderByTimestampDesc(assignedExerciseId)
 
         model.addAttribute("assignedExercise", assignedExercise)
         model.addAttribute("exercise", exercise)
+        model.addAttribute("comments", comments)
+
         return "exercise-student-view"
     }
 
@@ -61,6 +68,7 @@ class AssignedExerciseController: BaseController() {
         val exercise = exerciseRepository.findById(assignedExercise.exerciseId).orElseThrow {
             throw Exception("Could not find exercise with id ${assignedExercise.id}")
         }
+        val comments = messageRepository.findByAssignedExerciseIdOrderByTimestampDesc(assignedExerciseId)
 
         assignedExercise.result = null
         assignedExercise.resultShort = null
@@ -70,6 +78,8 @@ class AssignedExerciseController: BaseController() {
         assignedExerciseRepository.save(assignedExercise)
         model.addAttribute("assignedExercise", assignedExercise)
         model.addAttribute("exercise", exercise)
+        model.addAttribute("comments", comments)
+
         return "exercise-student-view"
     }
 }
