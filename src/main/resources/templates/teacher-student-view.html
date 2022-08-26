@@ -10,6 +10,10 @@
   <div class="ui segment">
     <h1>[[${student.name}]]</h1>
 
+    <a class="ui button" th:href="@{'/select-exercise/' + ${student.id}}" tabindex="0">
+      Assign Exercises
+    </a>
+
     <h3>Assigned Exercises:</h3>
     <div th:if="${#lists.isEmpty(assignedExercises)}">
       <span class="ui tag label">Nothing is assigned yet</span>
@@ -19,13 +23,13 @@
       <tr th:each="assignedExercise: ${assignedExercises}">
         <td>
           <h4 class="ui image header">
-            <a th:text="${assignedExercise.name}"  class="content" th:href="@{'/user/edit/' + ${user.id}}"></a>
+            <a th:text="${assignedExercise.name}"  class="content" th:href="@{'/user/edit/' + ${student.id}}"></a>
             <span class="sub header" th:text="${assignedExercise.assignedAt}"></span>
           </h4>
         </td>
         <td>
           <button class="ui compact red icon button deleteUserBtn"
-                  data-th-attr="data-user-id=${exercise.id},data-user-name=${user.name}">
+                  data-th-attr="data-user-id=${assignedExercise.id},data-user-name=${student.name}">
             <i class="trash icon"></i>
           </button>
         </td>

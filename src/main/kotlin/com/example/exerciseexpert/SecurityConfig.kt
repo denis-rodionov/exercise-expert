@@ -34,6 +34,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .usernameParameter("email")
             .passwordParameter("password")
             .defaultSuccessUrl("/exercise", true)
+            .and()
+            .csrf().disable().cors()
     }
 
     @Bean

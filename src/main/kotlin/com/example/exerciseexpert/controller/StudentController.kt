@@ -33,13 +33,13 @@ class StudentController: BaseController() {
     }
 
     @GetMapping("{id}")
-    fun getStudent(@PathVariable("id") userId: String, model: Model): String {
+    fun showStudentView(@PathVariable("id") userId: String, model: Model): String {
         val student = userRepository.findById(userId).orElseThrow {
             Exception("Student not found by the user id $userId")
         }
-        val assignedExercise = assignedExercisesRepository.findByAssignedToUserId(student.id!!)
+        val assignedExercises = assignedExercisesRepository.findByAssignedToUserId(student.id!!)
         model.addAttribute("student", student)
-        model.addAttribute("assignedExercise", assignedExercise)
+        model.addAttribute("assignedExercises", assignedExercises)
         return "teacher-student-view"
     }
 }

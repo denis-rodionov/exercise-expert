@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/layout :: headFragment">
+    <title id="pageTitle">Student View</title>
+</head>
+
+<body>
+    <div class="ui segment">
+        <a class="ui left labeled icon button" href="javascript:history.back()">
+            <i class="left arrow icon"></i>
+            Back
+        </a>
+        <table class="ui very basic collapsing celled table">
+            <tbody>
+            <tr th:each="exercise: ${exercises}">
+                <td>
+                    <h4 class="ui image header">
+                        <a th:text="${exercise.name}" th:href="@{'/exercise/view/' + ${exercise.id}}" class="content"></a>
+                        <div class="sub header">Once upon a time...</div>
+                    </h4>
+                </td>
+                <td>
+                    <i class="user icon"></i>
+                    <span th:text="${exercise.authorRef.userName}"></span>
+                </td>
+                <td>
+                    <div class="right floated content">
+                        <a class="ui button add-exercise-to-selection"
+                           data-th-attr="data-exercise-id=${exercise.id},data-user-id=${userId}">Add</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
