@@ -16,7 +16,7 @@ data class User(
     var role: UserRole?
 ) : UserDetails {
     override fun toString(): String {
-        return "User $name, role: $role, password: $userPassword"
+        return "User $name, role: $role, id: $id"
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {

@@ -33,7 +33,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .loginProcessingUrl("/login")
             .usernameParameter("email")
             .passwordParameter("password")
-            .defaultSuccessUrl("/exercise", true)
+            .defaultSuccessUrl("/", true)
             .and()
             .csrf().disable().cors()
     }

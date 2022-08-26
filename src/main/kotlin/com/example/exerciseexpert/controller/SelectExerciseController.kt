@@ -41,11 +41,14 @@ class SelectExerciseController: BaseController() {
             exerciseId = exercise.id!!,
             name = exercise.name,
             assignedToUserId = userId,
-            assignedByUserId = user().user!!.id.orEmpty(),
+            assignedByUserId = userContext().user!!.id.orEmpty(),
             assignedAt = Instant.now(),
             result = null,
-            reviewCommend = null,
-            reviewedByUserId = null
+            resultShort = null,
+            resultScore = null,
+            reviewComment = null,
+            reviewedByUserId = null,
+            doneAt = null,
         ))
     }
 }

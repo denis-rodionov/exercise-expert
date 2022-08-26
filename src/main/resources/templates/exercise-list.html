@@ -34,7 +34,7 @@
                     <td>
                         <h4 class="ui image header">
                             <a th:text="${exercise.name}" th:href="@{'/exercise/view/' + ${exercise.id}}" class="content"></a>
-                            <div class="sub header">Once upon a time...</div>
+                            <span class="sub header" th:text="${#temporals.format(exercise.createdAt, 'dd MMMM yyyy')}"></span>
                         </h4>
                     </td>
                     <td>

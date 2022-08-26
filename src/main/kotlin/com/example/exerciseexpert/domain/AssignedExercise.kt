@@ -21,7 +21,15 @@ data class AssignedExercise(
     // the result HTML code, showing, how the user have done the exercise
     var result: String?,
 
+    // short text version of the result
+    var resultShort: String?,
+
+    // result score in percents: correct done / total questions
+    var resultScore: Int?,
+
     var reviewedByUserId: String?,
 
-    var reviewCommend: String?
+    var reviewComment: String?,
+
+    var doneAt: Instant?,
 )

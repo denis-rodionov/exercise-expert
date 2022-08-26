@@ -10,8 +10,12 @@ open class BaseController {
     val logger = LoggerFactory.getLogger(BaseController::class.java)
 
     @ModelAttribute(name = "userContext")
-    fun user(): UserContext {
+    fun userContext(): UserContext {
         val user = SecurityContextHolder.getContext().authentication.principal;
         return if (user is User) UserContext(user) else UserContext(null)
+    }
+
+    fun user(): User {
+        return userContext().user ?: throw Exception("Could not find a use in the context!")
     }
 }

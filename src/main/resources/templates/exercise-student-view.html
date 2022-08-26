@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:include="fragments/layout :: headFragment">
+    <title id="pageTitle">Student View</title>
+</head>
+<body>
+    <div th:replace="fragments/layout :: header('dashboard')">&nbsp;</div>
+
+    <a class="ui left labeled icon button" th:href="@{'/dashboard'}">
+        <i class="left arrow icon"></i>
+        Back
+    </a>
+
+    <h1>Exercise: [[${assignedExercise.name}]]</h1>
+
+    <!-- Exercise is not yet done -->
+    <div class="ui segment">
+        <div class="ui list">
+            <div class="item">
+                <i class="info circle icon"></i>
+                <div th:if="${assignedExercise.result == null}" class="content">
+                    <span class="ui orange label">To Do</span>
+                </div>
+                <div th:if="${assignedExercise.result != null}" class="content">
+                    Status: <span class="ui green label">Done</span>
+                </div>
+            </div>
+            <div class="item">
+                <i class="calendar icon"></i>
+                <div class="content">
+                    Assigned: [[${#temporals.format(assignedExercise.assignedAt, 'dd MMMM yyyy')}]]
+                </div>
+            </div>
+            <div th:if="${assignedExercise.result != null}" class="item">
+                <i class="check icon"></i>
+                <div class="content">
+                    Exercise successful rate: <b>[[${assignedExercise.resultScore}]]%</b>
+                </div>
+            </div>
+            <div th:if="${assignedExercise.result != null}" class="item">
+                <i class="calendar check icon"></i>
+                <div class="content">
+                    Done: [[${#temporals.format(assignedExercise.doneAt, 'dd MMMM yyyy')}]]
+                </div>
+            </div>
+        </div>
+        <a th:if="${assignedExercise.result != null}"
+           class="ui red button"
+           th:href="@{'/assigned-exercise/' + ${assignedExercise.id} + '/student/reset'}">Reset and try again</a>
+    </div>
+    <div th:if="${assignedExercise.result == null}" th:utext="${exercise.exerciseCode}" class="ui segment"></div>
+    <div th:if="${assignedExercise.result != null}" th:utext="${assignedExercise.result}" class="ui segment"></div>
+
+    <script>
+        $("#ew-check-results").text("Check");
+        // Replacing the function, which is called by exercise Check button
+        function showResult(score, total) {
+            $("#ew-check-results").remove();
+            console.log("Replaced function called " + score + "/" + total)
+            let resultText = generateAnswer(score, total);
+
+            let exerciseTag = $('.ew-exercise').parent();
+            //let cssTag = exerciseTag.siblings('style')
+
+            let resultHtml = exerciseTag.html();
+            console.log("TEXT:\n" + resultText + "\n\nResult HTML:\n" + resultHtml);
+
+            let assignedExerciseId = "[[${assignedExercise.id}]]";
+            $.post(`/assigned-exercise/${assignedExerciseId}/student`,
+                {
+                    resultText: resultText,
+                    resultHtml: resultHtml,
+                    successCount: score,
+                    totalCount: total
+                })
+                .done(function() {
+                    console.log("Request is finished!");
+                    location.reload();
+                });
+        }
+    </script>
+</body>
+</html>
