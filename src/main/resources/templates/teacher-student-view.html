@@ -24,7 +24,7 @@
         <td>
           <h4 class="ui image header">
             <a th:text="${assignedExercise.name}"  class="content" th:href="@{'/user/edit/' + ${student.id}}"></a>
-            <span class="sub header" th:text="${assignedExercise.assignedAt}"></span>
+            <span class="sub header" th:text="${#temporals.format(assignedExercise.assignedAt, 'dd MMMM yyyy')}"></span>
           </h4>
         </td>
         <td>
