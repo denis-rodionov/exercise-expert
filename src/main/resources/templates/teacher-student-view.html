@@ -18,6 +18,8 @@
     <div th:if="${#lists.isEmpty(assignedExercises)}">
       <span class="ui tag label">Nothing is assigned yet</span>
     </div>
+
+
     <table class="ui very basic collapsing celled table">
       <tbody>
       <tr th:each="assignedExercise: ${assignedExercises}">
@@ -28,10 +30,10 @@
           </h4>
         </td>
         <td>
-          <button class="ui compact red icon button deleteUserBtn"
-                  data-th-attr="data-user-id=${assignedExercise.id},data-user-name=${student.name}">
+          <a class="ui compact red icon button deleteExerciseBtn"
+             data-th-attr="data-student-id=${student.id},data-exercise-id=${assignedExercise.id}">
             <i class="trash icon"></i>
-          </button>
+          </a>
         </td>
       </tr>
       </tbody>
@@ -39,5 +41,21 @@
 
     <!-- TODO: registration date, assigned, done, reviewed exercises, activity chart. Actions: assign/review/unassign exercise, message, -->
   </div>
+  <script>
+    $(".deleteExerciseBtn").click(function () {
+      console.log('Deleting exercise...');
+      let button = $(this);
+      let assignedExerciseId = button.attr('data-exercise-id');
+      let studentId = button.attr('data-user-id');
+      $.ajax({
+        url: '/student/' + studentId + '/exercise/' + assignedExerciseId,
+        type: 'DELETE',
+        success: function(result) {
+          showSuccessMessage("The assigned exercise was removed for the student!");
+          button.parent().parent().remove();
+        }
+      });
+    });
+  </script>
 </body>
 </html>

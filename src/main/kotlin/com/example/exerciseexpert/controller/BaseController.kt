@@ -12,7 +12,6 @@ open class BaseController {
     @ModelAttribute(name = "userContext")
     fun user(): UserContext {
         val user = SecurityContextHolder.getContext().authentication.principal;
-        logger.info("Logged user: $user")
         return if (user is User) UserContext(user) else UserContext(null)
     }
 }

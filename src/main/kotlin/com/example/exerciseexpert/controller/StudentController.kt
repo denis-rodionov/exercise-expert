@@ -4,11 +4,10 @@ import com.example.exerciseexpert.domain.emums.UserRole
 import com.example.exerciseexpert.repository.AssignedExerciseRepository
 import com.example.exerciseexpert.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import java.lang.Exception
 
 @Controller
@@ -41,5 +40,13 @@ class StudentController: BaseController() {
         model.addAttribute("student", student)
         model.addAttribute("assignedExercises", assignedExercises)
         return "teacher-student-view"
+    }
+
+    @DeleteMapping("{studentId}/exercise/{assignedExerciseId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    fun deleteAssignedExercise(@PathVariable studentId: String, @PathVariable assignedExerciseId: String) {
+        println("Deleteing the exercise....")
+        val assignedExercise = assignedExercisesRepository.findById(assignedExerciseId).orElseThrow { Exception("Assigned exercise not found") }
+        assignedExercisesRepository.delete(assignedExercise)
     }
 }
