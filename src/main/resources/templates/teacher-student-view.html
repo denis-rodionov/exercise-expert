@@ -8,17 +8,18 @@
   <div th:replace="fragments/layout :: header('students')">&nbsp;</div>
 
   <div class="ui segment">
-    <h1>[[${student.name}]]</h1>
-
-    <a class="ui button" th:href="@{'/select-exercise/' + ${student.id}}" tabindex="0">
-      Assign Exercises
-    </a>
+    <h1>Student: [[${student.name}]]</h1>
 
     <h3>Assigned Exercises:</h3>
-    <div th:if="${#lists.isEmpty(assignedExercises)}">
-      <span class="ui tag label">Nothing is assigned yet</span>
-    </div>
 
+    <p th:if="${#lists.isEmpty(assignedExercises)}">
+      Nothing is assigned yet
+    </p>
+
+    <a class="ui labeled icon button" th:href="@{'/select-exercise/' + ${student.id}}" tabindex="0">
+      <i class="right plus icon"></i>
+      Assign Exercises
+    </a>
 
     <table class="ui very basic collapsing celled table">
       <tbody>
