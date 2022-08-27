@@ -11,7 +11,7 @@
     <div class="ui relaxed divided list">
       <div class="item" th:each="notification: ${notifications}">
         <div class="right floated content">
-          <div class="ui icon button" data-content="Dismiss the notification">
+          <div class="ui icon button likeBtn" data-content="Dismiss the notification" data-th-attr="data-notification-id=${notification.id}">
             <i class="thumbs up icon"></i>
           </div>
         </div>
@@ -26,5 +26,19 @@
       </div>
     </div>
   </div>
+  <script>
+    $(".likeBtn").click(function () {
+      let button = $(this);
+      let notificationId = button.attr("data-notification-id");
+      $.post(`/notification/${notificationId}`)
+          .done(function () {
+             showSuccessMessage("Notification is dismissed")
+          })
+          .fail(function () {
+            showErrorMessage("Could not dismiss the notification")
+          })
+      button.parent().parent().remove();
+    })
+  </script>
 </body>
 </html>
