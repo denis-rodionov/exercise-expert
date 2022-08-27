@@ -26,9 +26,15 @@
       <tr th:each="assignedExercise: ${assignedExercises}">
         <td>
           <h4 class="ui image header">
-            <a th:text="${assignedExercise.name}"  class="content" th:href="@{'/user/edit/' + ${student.id}}"></a>
+            <a th:text="${assignedExercise.name}"
+               class="content"
+               th:href="@{'/assigned-exercise/' + ${assignedExercise.id}}"></a>
             <span class="sub header" th:text="${#temporals.format(assignedExercise.assignedAt, 'dd MMMM yyyy')}"></span>
           </h4>
+        </td>
+        <td>
+          <span th:if="${assignedExercise.result == null}" class="ui orange tag label">New</span>
+          <span th:if="${assignedExercise.result != null and assignedExercise.reviewComment == null}" class="ui green tag label">Done</span>
         </td>
         <td>
           <a class="ui compact red icon button deleteExerciseBtn"

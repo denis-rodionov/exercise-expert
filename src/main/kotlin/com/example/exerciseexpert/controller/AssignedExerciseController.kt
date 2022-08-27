@@ -1,8 +1,14 @@
 package com.example.exerciseexpert.controller
 
+import com.example.exerciseexpert.domain.AssignedExercise
+import com.example.exerciseexpert.domain.Notification
+import com.example.exerciseexpert.domain.emums.NotificationType
+import com.example.exerciseexpert.domain.emums.UserRole
 import com.example.exerciseexpert.repository.AssignedExerciseRepository
 import com.example.exerciseexpert.repository.ExerciseRepository
 import com.example.exerciseexpert.repository.MessageRepository
+import com.example.exerciseexpert.repository.NotificationRepository
+import com.example.exerciseexpert.service.NotificationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -22,7 +28,10 @@ class AssignedExerciseController: BaseController() {
     @Autowired
     lateinit var messageRepository: MessageRepository
 
-    @GetMapping("{assignedExerciseId}/student")
+    @Autowired
+    lateinit var notificationService: NotificationService
+
+    @GetMapping("{assignedExerciseId}")
     fun showAssignedExerciseForStudent(@PathVariable assignedExerciseId: String, model: Model): String {
         val assignedExercise = assignedExerciseRepository.findById(assignedExerciseId).orElseThrow {
             throw Exception("Could not find assigned exercise with id $assignedExerciseId")
@@ -35,11 +44,13 @@ class AssignedExerciseController: BaseController() {
         model.addAttribute("assignedExercise", assignedExercise)
         model.addAttribute("exercise", exercise)
         model.addAttribute("comments", comments)
+        model.addAttribute("user", user())
+        model.addAttribute("returnUrl", getReturnUrl(assignedExercise))
 
-        return "exercise-student-view"
+        return "assigned-exercise-view"
     }
 
-    @PostMapping("{assignedExerciseId}/student")
+    @PostMapping("{assignedExerciseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun saveExerciseResults(@PathVariable assignedExerciseId: String,
                             @RequestParam resultText: String,
@@ -58,9 +69,10 @@ class AssignedExerciseController: BaseController() {
         assignedExercise.doneAt = Instant.now()
 
         assignedExerciseRepository.save(assignedExercise)
+        notificationService.exerciseCompleted(assignedExercise, user().name)
     }
 
-    @GetMapping("{assignedExerciseId}/student/reset")
+    @GetMapping("{assignedExerciseId}/reset")
     fun resetExerciseResults(@PathVariable assignedExerciseId: String, model: Model): String {
         val assignedExercise = assignedExerciseRepository.findById(assignedExerciseId).orElseThrow {
             throw Exception("Could not find assigned exercise with id $assignedExerciseId")
@@ -79,7 +91,16 @@ class AssignedExerciseController: BaseController() {
         model.addAttribute("assignedExercise", assignedExercise)
         model.addAttribute("exercise", exercise)
         model.addAttribute("comments", comments)
+        model.addAttribute("user", user())
+        model.addAttribute("returnUrl", getReturnUrl(assignedExercise))
 
-        return "exercise-student-view"
+        return "assigned-exercise-view"
+    }
+
+    fun getReturnUrl(assignedExercise: AssignedExercise): String {
+        return when (user().role) {
+            UserRole.STUDENT -> "/dashboard"
+            else -> "/student/${assignedExercise.assignedToUserId}"
+        }
     }
 }

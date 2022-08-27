@@ -2,6 +2,7 @@ package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.Message
 import com.example.exerciseexpert.repository.MessageRepository
+import com.example.exerciseexpert.service.NotificationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -14,18 +15,23 @@ class MessageController: BaseController() {
     @Autowired
     lateinit var messageRepository: MessageRepository
 
+    @Autowired
+    lateinit var notificationService: NotificationService
+
     @PostMapping
     fun sendComment(@RequestParam returnUrl: String, @RequestParam message: String, @RequestParam assignedExerciseId: String): String {
         logger.info("ReturnUrl: $returnUrl, message: $message, assignedExerciseId: $assignedExerciseId")
-
+        val userName = user().name
         messageRepository.save(Message(
             authorId = user().id!!,
-            authorName = user().name,
+            authorName = userName,
             recipientId = null,
             assignedExerciseId = assignedExerciseId,
             message = message,
             timestamp = Instant.now(),
         ))
+        notificationService.exerciseCommented(assignedExerciseId, userName)
+
         return "redirect:$returnUrl"
     }
 

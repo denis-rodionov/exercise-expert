@@ -4,10 +4,11 @@
     <title id="pageTitle">Student View</title>
 </head>
 <body>
-    <div th:replace="fragments/layout :: header('dashboard')">&nbsp;</div>
+    <div th:replace="fragments/layout :: header('notifications')">&nbsp;</div>
 
     <div class="ui segment">
-        <a class="ui left labeled icon button" th:href="@{'/dashboard'}">
+        <a class="ui left labeled icon button"
+            th:href="${returnUrl}">
             <i class="left arrow icon"></i>
             Back
         </a>
@@ -43,14 +44,16 @@
                 </div>
             </div>
         </div>
-        <a th:if="${assignedExercise.result != null}"
+        <a th:if="${assignedExercise.result != null and user.role.name == 'STUDENT'}"
            class="ui red button"
-           th:href="@{'/assigned-exercise/' + ${assignedExercise.id} + '/student/reset'}">Reset and try again</a>
+           th:href="@{'/assigned-exercise/' + ${assignedExercise.id} + '/reset'}">Reset and try again</a>
     </div>
     <div th:if="${assignedExercise.result == null}" th:utext="${exercise.exerciseCode}" class="ui segment"></div>
     <div th:if="${assignedExercise.result != null}" th:utext="${assignedExercise.result}" class="ui segment"></div>
 
     <div class="ui segment">
+        <h3 th:if="${user.role.name == 'STUDENT'}">Add your private comment or question to your supervisor:</h3>
+        <h3 th:if="${user.role.name != 'STUDENT'}">Chat with the student:</h3>
         <div class="ui comments">
             <div th:each="comment: ${comments}" class="comment">
                 <div class="content">
@@ -65,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <form th:action="@{'/message?returnUrl=/assigned-exercise/' + ${assignedExercise.id} + '/student'}" method="post" class="ui reply form">
+        <form th:action="@{'/message?returnUrl=/assigned-exercise/' + ${assignedExercise.id}}" method="post" class="ui reply form">
             <div class="field">
                 <textarea id="message" name="message"></textarea>
             </div>
@@ -90,7 +93,7 @@
             console.log("TEXT:\n" + resultText + "\n\nResult HTML:\n" + resultHtml);
 
             let assignedExerciseId = "[[${assignedExercise.id}]]";
-            $.post(`/assigned-exercise/${assignedExerciseId}/student`,
+            $.post(`/assigned-exercise/${assignedExerciseId}`,
                 {
                     resultText: resultText,
                     resultHtml: resultHtml,
@@ -100,6 +103,7 @@
                 .done(function() {
                     console.log("Request is finished!");
                     location.reload();
+                    document.location.href = `/assigned-exercise/${assignedExerciseId}`
                 });
         }
 

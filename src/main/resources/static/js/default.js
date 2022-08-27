@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
     console.log("DOM is loaded");
 
-    $.get("/notification", function(data) {
+    $.get("/notification/count", function(data) {
         $(".userNotification").text(data);
     });
 });
