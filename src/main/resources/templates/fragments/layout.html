@@ -25,6 +25,10 @@
     <a sec:authorize="hasAuthority('STUDENT')" th:class="(${menu == 'dashboard'} ? 'active': '') +  ' item'" href="/dashboard">
       Dashboard
     </a>
+    <a class="item">
+      <i class="mail icon"></i>
+      <span class="userNotification">23</span>
+    </a>
     <div class="right menu">
       <div th:if="${userContext.user}" class="ui item">
         <span th:text="${userContext.user.name}"></span>&nbsp|&nbsp<a href="/auth/logout">Log out</a>

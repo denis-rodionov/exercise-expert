@@ -1,7 +1,9 @@
 jQuery(document).ready(function($) {
     console.log("DOM is loaded");
 
-
+    $.get("/notification", function(data) {
+        $(".userNotification").text(data);
+    });
 });
 
 function showSuccessMessage(msg) {
