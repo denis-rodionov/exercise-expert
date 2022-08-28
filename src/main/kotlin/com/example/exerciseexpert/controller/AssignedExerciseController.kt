@@ -39,7 +39,7 @@ class AssignedExerciseController: BaseController() {
         val exercise = exerciseRepository.findById(assignedExercise.exerciseId).orElseThrow {
             throw Exception("Could not find exercise with id ${assignedExercise.id}")
         }
-        val comments = messageRepository.findByAssignedExerciseIdOrderByTimestampDesc(assignedExerciseId)
+        val comments = messageRepository.findByAssignedExerciseIdOrderByTimestampAsc(assignedExerciseId)
 
         model.addAttribute("assignedExercise", assignedExercise)
         model.addAttribute("exercise", exercise)
@@ -80,7 +80,7 @@ class AssignedExerciseController: BaseController() {
         val exercise = exerciseRepository.findById(assignedExercise.exerciseId).orElseThrow {
             throw Exception("Could not find exercise with id ${assignedExercise.id}")
         }
-        val comments = messageRepository.findByAssignedExerciseIdOrderByTimestampDesc(assignedExerciseId)
+        val comments = messageRepository.findByAssignedExerciseIdOrderByTimestampAsc(assignedExerciseId)
 
         assignedExercise.result = null
         assignedExercise.resultShort = null

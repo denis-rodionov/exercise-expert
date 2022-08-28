@@ -19,18 +19,21 @@ class MessageController: BaseController() {
     lateinit var notificationService: NotificationService
 
     @PostMapping
-    fun sendComment(@RequestParam returnUrl: String, @RequestParam message: String, @RequestParam assignedExerciseId: String): String {
+    fun sendComment(@RequestParam returnUrl: String, @RequestParam message: String,
+                    @RequestParam assignedExerciseId: String): String {
         logger.info("ReturnUrl: $returnUrl, message: $message, assignedExerciseId: $assignedExerciseId")
-        val userName = user().name
-        messageRepository.save(Message(
+        val user = user()
+
+        val savedMessage: Message = messageRepository.save(Message(
             authorId = user().id!!,
-            authorName = userName,
+            authorName = user.name,
             recipientId = null,
             assignedExerciseId = assignedExerciseId,
             message = message,
             timestamp = Instant.now(),
         ))
-        notificationService.exerciseCommented(assignedExerciseId, userName)
+        logger.info("Message is saved with id ${savedMessage.id}")
+        notificationService.exerciseCommented(assignedExerciseId, user, savedMessage.id!!)
 
         return "redirect:$returnUrl"
     }

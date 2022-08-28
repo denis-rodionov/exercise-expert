@@ -2,6 +2,7 @@ package com.example.exerciseexpert.service
 
 import com.example.exerciseexpert.domain.AssignedExercise
 import com.example.exerciseexpert.domain.Notification
+import com.example.exerciseexpert.domain.User
 import com.example.exerciseexpert.domain.emums.NotificationType
 import com.example.exerciseexpert.repository.AssignedExerciseRepository
 import com.example.exerciseexpert.repository.NotificationRepository
@@ -30,17 +31,23 @@ class NotificationService {
         ))
     }
 
-    fun exerciseCommented(assignedExerciseId: String, userName:String) {
+    fun exerciseCommented(assignedExerciseId: String, user: User, messageId: String) {
         val assignedExercise = assignedExerciseRepository.findById(assignedExerciseId).orElseThrow {
             Exception("Assigned exercise was not found by id $assignedExerciseId")
         }
 
+        // infer the notification recipient
+        val notificationRecipientUserId =
+            if (user.id!! == assignedExercise.assignedByUserId)
+                assignedExercise.assignedToUserId
+            else assignedExercise.assignedByUserId
+
         notificationRepository.save(Notification(
             null,
             NotificationType.EXERCISE_COMMENTED,
-            assignedExercise.assignedByUserId,
+            notificationRecipientUserId,
             false,
-            "User $userName commented exercise ${assignedExercise.name}",
+            "${user.name} commented exercise ${assignedExercise.name}",
             Instant.now(),
             null,
             assignedExerciseId = assignedExercise.id!!
