@@ -2,9 +2,9 @@
     color: #D8000C;
 }
 
-body > .grid {
+body > #login-form-grid.grid {
     height: 100%;
 }
-.column {
+#login-form.column {
     max-width: 450px;
 }

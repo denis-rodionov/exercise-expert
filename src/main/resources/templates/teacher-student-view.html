@@ -7,48 +7,138 @@
 <body>
   <div th:replace="fragments/layout :: header('students')">&nbsp;</div>
 
-  <div class="ui segment">
-    <h1>Student: [[${student.name}]]</h1>
+  <h1 class="ui center aligned header">Student: [[${student.name}]]</h1>
 
-    <h3>Assigned Exercises:</h3>
+  <div class="ui basic segment">
+    <div class="ui two column stackable grid">
+      <div class="one column row">
+        <div class="column">
+          <div class="ui segment">
+            <div class="ui statistics">
+              <div class="statistic">
+                <div class="value">
+                  22
+                </div>
+                <div class="label">
+                  Saves
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="text value">
+                  Three<br>
+                  Thousand
+                </div>
+                <div class="label">
+                  Signups
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <i class="plane icon"></i> 5
+                </div>
+                <div class="label">
+                  Flights
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <p th:if="${#lists.isEmpty(assignedExercises)}">
-      Nothing is assigned yet
-    </p>
+      <div class="column">
+        <div class="ui segment">
+          <h3>Assigned Exercises:</h3>
+          <div class="ui indicating progress" data-percent="20" id="example">
+            <div class="bar"></div>
+          </div>
 
-    <a class="ui labeled icon button" th:href="@{'/select-exercise/' + ${student.id}}" tabindex="0">
-      <i class="right plus icon"></i>
-      Assign Exercises
-    </a>
+          <p th:if="${#lists.isEmpty(assignedExercises)}">
+            Nothing is assigned yet
+          </p>
 
-    <table class="ui very basic collapsing celled table">
-      <tbody>
-      <tr th:each="assignedExercise: ${assignedExercises}">
-        <td>
-          <h4 class="ui image header">
-            <a th:text="${assignedExercise.name}"
-               class="content"
-               th:href="@{'/assigned-exercise/' + ${assignedExercise.id}}"></a>
-            <span class="sub header" th:text="${#temporals.format(assignedExercise.assignedAt, 'dd MMMM yyyy')}"></span>
-          </h4>
-        </td>
-        <td>
-          <span th:if="${assignedExercise.result == null}" class="ui orange tag label">New</span>
-          <span th:if="${assignedExercise.result != null and assignedExercise.reviewComment == null}" class="ui green tag label">Done</span>
-        </td>
-        <td>
-          <a class="ui compact red icon button deleteExerciseBtn"
-             data-th-attr="data-student-id=${student.id},data-exercise-id=${assignedExercise.id}">
-            <i class="trash icon"></i>
+          <a class="ui labeled icon button" th:href="@{'/select-exercise/' + ${student.id}}" tabindex="0">
+            <i class="right plus icon"></i>
+            Assign Exercises
           </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
 
-    <!-- TODO: registration date, assigned, done, reviewed exercises, acchart. Acttivity ions: assign/review/unassign exercise, message, -->
+          <table class="ui very basic collapsing celled table">
+            <tbody>
+            <tr th:each="assignedExercise: ${assignedExercises}">
+              <td>
+                <h4 class="ui image header">
+                  <a th:text="${assignedExercise.name}"
+                     class="content"
+                     th:href="@{'/assigned-exercise/' + ${assignedExercise.id}}"></a>
+                  <span class="sub header" th:text="${#temporals.format(assignedExercise.assignedAt, 'dd MMMM yyyy')}"></span>
+                </h4>
+              </td>
+              <td>
+                <span th:if="${assignedExercise.result == null}" class="ui orange tag label">New</span>
+                <span th:if="${assignedExercise.result != null and assignedExercise.reviewComment == null}" class="ui green tag label">Done</span>
+              </td>
+              <td>
+                <a class="ui compact red icon button deleteExerciseBtn"
+                   data-th-attr="data-student-id=${student.id},data-exercise-id=${assignedExercise.id}">
+                  <i class="trash icon"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="ui segment">
+          <div class="ui small comments">
+            <h3 class="ui dividing header">Comments</h3>
+            <div class="comment">
+              <div class="content">
+                <a class="author">Matt</a>
+                <div class="metadata">
+                  <span class="date">Today at 5:42PM</span>
+                </div>
+                <div class="text">
+                  How artistic!
+                </div>
+                <div class="actions">
+                  <a class="reply">Reply</a>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <div class="content">
+                <a class="author">Joe Henderson</a>
+                <div class="metadata">
+                  <span class="date">5 days ago</span>
+                </div>
+                <div class="text">
+                  Dude, this is awesome. Thanks so much
+                </div>
+                <div class="actions">
+                  <a class="reply">Reply</a>
+                </div>
+              </div>
+            </div>
+            <form class="ui reply form">
+              <div class="field">
+                <textarea></textarea>
+              </div>
+              <div class="ui blue labeled submit icon button">
+                <i class="icon edit"></i> Add Reply
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- TODO: registration date, assigned, done, reviewed exercises, acchart. Acttivity ions: assign/review/unassign exercise, message, -->
   <script>
+    $('#example').progress({
+      percent: $(this).attr("data-percent")
+    });
     $(".deleteExerciseBtn").click(function () {
       console.log('Deleting exercise...');
       let button = $(this);

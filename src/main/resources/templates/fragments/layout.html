@@ -3,6 +3,7 @@
 <head th:fragment="headFragment" th:lang="en">
   <title th:include=":: #pageTitle">Layout Generic Title</title>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
   <link rel="stylesheet" type="text/css" th:href="@{/css/semantic.min.css}">
   <link rel="stylesheet" type="text/css" th:href="@{/css/semantic-ui-alert.css}">
@@ -12,22 +13,36 @@
   <script th:src="@{/js/semantic-ui-alert.js}"></script>
 </head>
 <body>
-  <div th:fragment="header(menu)" class="ui pointing menu">
-    <a sec:authorize="hasAuthority('TEACHER')" th:class="(${menu == 'exercise'} ? 'active': '') +  ' item'" href="/exercise">
+  <div th:fragment="header(menu)" class="ui stackable menu">
+    <a sec:authorize="hasAuthority('TEACHER')"
+       th:class="(${menu == 'exercise'} ? 'active': '') +  ' item'"
+       href="/exercise">
+      <i class="book icon"></i>
       Exercises
     </a>
-    <a sec:authorize="hasAuthority('ADMIN')" th:class="(${menu == 'user'} ? 'active': '') +  ' item'" href="/user">
+    <a sec:authorize="hasAuthority('ADMIN')"
+       th:class="(${menu == 'user'} ? 'active': '') +  ' item'"
+       href="/user">
+      <i class="user icon"></i>
       Users
     </a>
-    <a sec:authorize="hasAuthority('TEACHER')" th:class="(${menu == 'students'} ? 'active': '') +  ' item'" href="/student">
+    <a sec:authorize="hasAuthority('TEACHER')"
+       th:class="(${menu == 'students'} ? 'active': '') +  ' item'"
+       href="/student">
+      <i class="graduation cap icon"></i>
       Students
     </a>
-    <a sec:authorize="hasAuthority('STUDENT')" th:class="(${menu == 'dashboard'} ? 'active': '') +  ' item'" href="/dashboard">
+    <a sec:authorize="hasAuthority('STUDENT')"
+       th:class="(${menu == 'dashboard'} ? 'active': '') +  ' item'"
+       href="/dashboard">
+      <i class="newspaper icon"></i>
       Dashboard
     </a>
-    <a class="item" th:class="(${menu == 'notification'} ? 'active': '') +  ' item'" href="/notification">
+    <a th:class="(${menu == 'notification'} ? 'active': '') +  ' item'"
+       href="/notification">
       <i class="mail icon"></i>
-      <span class="userNotification"></span>
+      Notifications
+      <div class="ui label userNotification">1</div>
     </a>
     <div class="right menu">
       <div th:if="${userContext.user}" class="ui item">
