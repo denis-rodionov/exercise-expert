@@ -80,7 +80,12 @@
     </div>
 
     <script>
+        let userRole = "[[${userContext.user.role.name}]]";
         $("#ew-check-results").text("Check");
+        if (userRole != 'STUDENT') {
+            $("#ew-check-results").remove();
+        }
+
         // Replacing the function, which is called by exercise Check button
         function showResult(score, total) {
             $("#ew-check-results").remove();
