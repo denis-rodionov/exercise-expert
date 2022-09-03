@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head th:include="fragments/layout :: headFragment">
-  <title id="pageTitle">Student View</title>
+  <title id="pageTitle">Notification View</title>
 </head>
 <body>
   <div th:replace="fragments/layout :: header('notification')">&nbsp;</div>
@@ -19,8 +19,14 @@
         <i th:if="${notification.type.name == 'EXERCISE_COMMENTED'}" class="large comments middle aligned icon"></i>
         <i th:if="${notification.type.name == 'DIRECT_MESSAGE'}" class="large envelope middle aligned icon"></i>
         <div class="content">
-          <a class="header" th:text="${notification.text}"
+          <a th:if="${notification.type.name == 'EXERCISE_COMPLETED'}" class="header" th:text="${notification.text}"
              th:href="@{'/assigned-exercise/' + ${notification.assignedExerciseId}}"></a>
+          <a th:if="${notification.type.name == 'EXERCISE_COMMENTED'}" class="header" th:text="${notification.text}"
+             th:href="@{'/assigned-exercise/' + ${notification.assignedExerciseId}}"></a>
+          <a th:if="${notification.type.name == 'DIRECT_MESSAGE' and userContext.user.role.name == 'STUDENT'}"
+             class="header" th:text="${notification.text}" href="/dashboard"></a>
+          <a th:if="${notification.type.name == 'DIRECT_MESSAGE' and userContext.user.role.name != 'STUDENT'}"
+             class="header" th:text="${notification.text}" th:href="${'/student/' + notification.notificationFromUserId}"></a>
           <div class="description" th:text="${#temporals.format(notification.timestamp, 'dd MMMM yyyy')}"></div>
         </div>
       </div>

@@ -69,7 +69,7 @@ class AssignedExerciseController: BaseController() {
         assignedExercise.doneAt = Instant.now()
 
         assignedExerciseRepository.save(assignedExercise)
-        notificationService.exerciseCompleted(assignedExercise, user().name)
+        notificationService.exerciseCompleted(assignedExercise, user())
     }
 
     @GetMapping("{assignedExerciseId}/reset")

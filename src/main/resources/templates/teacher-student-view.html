@@ -91,42 +91,25 @@
       <div class="column">
         <div class="ui segment">
           <div class="ui small comments">
-            <h3 class="ui dividing header">Comments</h3>
-            <div class="comment">
+            <h3 class="ui dividing header">Direct Messages</h3>
+            <p th:if="${#lists.isEmpty(messages)}">No direct messages yet</p>
+            <div th:each="message: ${messages}" class="comment">
               <div class="content">
-                <a class="author">Matt</a>
+                <a class="author" th:text="${message.authorName}"></a>
                 <div class="metadata">
-                  <span class="date">Today at 5:42PM</span>
+                  <span class="date" th:text="${#temporals.format(message.timestamp, 'dd MMMM yyyy')}"></span>
                 </div>
-                <div class="text">
-                  How artistic!
-                </div>
-                <div class="actions">
-                  <a class="reply">Reply</a>
-                </div>
+                <div class="text" th:text="${message.message}"></div>
               </div>
             </div>
-            <div class="comment">
-              <div class="content">
-                <a class="author">Joe Henderson</a>
-                <div class="metadata">
-                  <span class="date">5 days ago</span>
-                </div>
-                <div class="text">
-                  Dude, this is awesome. Thanks so much
-                </div>
-                <div class="actions">
-                  <a class="reply">Reply</a>
-                </div>
-              </div>
-            </div>
-            <form class="ui reply form">
+            <form th:action="@{'/message/direct?returnUrl=/student/' + ${student.id}}" method="post" class="ui reply form">
               <div class="field">
-                <textarea></textarea>
+                <textarea id="message" name="message"></textarea>
               </div>
-              <div class="ui blue labeled submit icon button">
+              <input type="hidden" id="recipientUserId" name="recipientUserId" th:value="${student.id}">
+              <button class="ui blue labeled submit icon button">
                 <i class="icon edit"></i> Add Reply
-              </div>
+              </button>
             </form>
           </div>
         </div>

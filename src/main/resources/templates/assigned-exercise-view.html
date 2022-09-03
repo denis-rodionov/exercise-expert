@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <form th:action="@{'/message?returnUrl=/assigned-exercise/' + ${assignedExercise.id}}" method="post" class="ui reply form">
+        <form th:action="@{'/message/comment?returnUrl=/assigned-exercise/' + ${assignedExercise.id}}" method="post" class="ui reply form">
             <div class="field">
                 <textarea id="message" name="message"></textarea>
             </div>

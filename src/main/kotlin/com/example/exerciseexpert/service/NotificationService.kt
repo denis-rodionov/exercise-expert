@@ -18,16 +18,17 @@ class NotificationService {
     @Autowired
     lateinit var assignedExerciseRepository: AssignedExerciseRepository
 
-    fun exerciseCompleted(assignedExercise: AssignedExercise, userName: String) {
+    fun exerciseCompleted(assignedExercise: AssignedExercise, user: User) {
         notificationRepository.save(Notification(
             null,
             NotificationType.EXERCISE_COMPLETED,
             assignedExercise.assignedByUserId,
             false,
-            "User $userName has compleated the exercise ${assignedExercise.name} with score ${assignedExercise.resultScore}%",
+            "User $user.name has compleated the exercise ${assignedExercise.name} with score ${assignedExercise.resultScore}%",
             Instant.now(),
             null,
-            assignedExerciseId = assignedExercise.id!!
+            assignedExerciseId = assignedExercise.id!!,
+            user.id
         ))
     }
 
@@ -42,6 +43,11 @@ class NotificationService {
                 assignedExercise.assignedToUserId
             else assignedExercise.assignedByUserId
 
+        val notificationSourceUserId =
+            if (user.id!! == assignedExercise.assignedByUserId)
+                assignedExercise.assignedByUserId
+            else assignedExercise.assignedToUserId
+
         notificationRepository.save(Notification(
             null,
             NotificationType.EXERCISE_COMMENTED,
@@ -49,8 +55,23 @@ class NotificationService {
             false,
             "${user.name} commented exercise ${assignedExercise.name}",
             Instant.now(),
+            messageId,
+            assignedExerciseId = assignedExercise.id!!,
+            notificationSourceUserId,
+        ))
+    }
+
+    fun directMessageSent(authorUser: User, recipientUserId: String, messageId: String) {
+        notificationRepository.save(Notification(
             null,
-            assignedExerciseId = assignedExercise.id!!
+            NotificationType.DIRECT_MESSAGE,
+            recipientUserId,
+            false,
+            "Direct message from ${authorUser.name}",
+            Instant.now(),
+            messageId,
+            null,
+            authorUser.id!!
         ))
     }
 }

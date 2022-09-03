@@ -40,7 +40,13 @@ class AuthController : BaseController() {
 
     @GetMapping("/register")
     fun registerPage(model: Model): String {
+        val admins = userRepository.findByRole(UserRole.ADMIN)
+        val teachers = userRepository.findByRole(UserRole.TEACHER)
+
+        logger.info("DEBUG: Admins: ${admins.size} Teachers: ${teachers.size}")
+
         model.addAttribute("registerData", RegisterData())
+        model.addAttribute("supervisors", admins + teachers)
         return "register"
     }
 
@@ -54,7 +60,14 @@ class AuthController : BaseController() {
             return "register"
         }
 
-        userRepository.save(User(null, registerData.name!!, registerData.email!!, registerData.password!!, UserRole.STUDENT))
+        userRepository.save(User(
+            null,
+            registerData.name!!,
+            registerData.email!!,
+            registerData.password!!,
+            UserRole.STUDENT,
+            registerData.supervisorUserId,
+        ))
         logger.info("New user is saved: ${registerData.name}")
         return "redirect:/login"
     }

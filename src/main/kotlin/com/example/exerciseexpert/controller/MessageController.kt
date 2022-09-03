@@ -18,7 +18,7 @@ class MessageController: BaseController() {
     @Autowired
     lateinit var notificationService: NotificationService
 
-    @PostMapping
+    @PostMapping("comment")
     fun sendComment(@RequestParam returnUrl: String, @RequestParam message: String,
                     @RequestParam assignedExerciseId: String): String {
         logger.info("ReturnUrl: $returnUrl, message: $message, assignedExerciseId: $assignedExerciseId")
@@ -34,6 +34,30 @@ class MessageController: BaseController() {
         ))
         logger.info("Message is saved with id ${savedMessage.id}")
         notificationService.exerciseCommented(assignedExerciseId, user, savedMessage.id!!)
+
+        return "redirect:$returnUrl"
+    }
+
+    @PostMapping("direct")
+    fun sendDirectMessage(@RequestParam returnUrl: String, @RequestParam message: String,
+                          @RequestParam recipientUserId: String?): String {
+        logger.info("ReturnUrl: $returnUrl, message: $message, recipientUserId: $recipientUserId")
+        val user = user()
+
+        // Teacher send messages always to a concrete student
+        val recipientUserIdNotNull = if (recipientUserId != null) recipientUserId!!
+                else user.supervisorUserId ?: throw Exception("Supervisor is not assigned to user ${user.name}")
+
+        val savedMessage: Message = messageRepository.save(Message(
+            authorId = user().id!!,
+            authorName = user.name,
+            recipientId = recipientUserIdNotNull,
+            assignedExerciseId = null,
+            message = message,
+            timestamp = Instant.now(),
+        ))
+        logger.info("Message is saved with id ${savedMessage.id}")
+        notificationService.directMessageSent(user, recipientUserIdNotNull, savedMessage.id!!)
 
         return "redirect:$returnUrl"
     }

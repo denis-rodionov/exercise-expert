@@ -7,10 +7,10 @@
 
 
 <div class="ui segment">
-    <div class="ui middle aligned center aligned grid">
-        <div class="column">
+    <div class="ui middle aligned center aligned grid" id="login-form-grid">
+        <div id="login-form" class="column">
             <h1>Sign in</h1>
-            <form method="post" th:object="${registerData}" th:action="@{/auth/register}" class="ui form">
+            <form method="post" th:object="${registerData}" th:action="@{/auth/register}" class="ui form" >
                 <div class="field">
                     <input name="name" type="text" th:field="*{name}" placeholder="Name">
                     <p th:if="${#fields.hasErrors('name')}" th:errorclass="validation-error" th:errors="*{name}" ></p>
@@ -31,6 +31,18 @@
                     <p th:if="${#fields.hasErrors('confirmPassword')}" th:errorclass="validation-error" th:errors="*{confirmPassword}" ></p>
                 </div>
 
+                <div class="field">
+                    <div class="supervisorSelection ui fluid selection dropdown">
+                        <input type="hidden" name="supervisorUserId">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select Supervisor</div>
+                        <div class="menu">
+                            <div th:each="supervisor: ${supervisors}" class="item" data-value="${supervisor.id}" data-th-attr="data-value=${supervisor.id}" th:text="${supervisor.name}"></div>
+                        </div>
+                    </div>
+                    <p th:if="${#fields.hasErrors('supervisorUserId')}" th:errorclass="validation-error" th:errors="*{supervisorUserId}" ></p>
+                </div>
+
               <button class="ui submit primary button">Sign up</button>
               <div class="ui message">
                 Already with us? <a href="/login">Sign in</a>
@@ -39,5 +51,12 @@
         </div>
     </div>
 </div>
+<script>
+    $('.supervisorSelection')
+        .dropdown({
+            clearable: true
+        })
+    ;
+</script>
 </body>
 </html>

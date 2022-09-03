@@ -32,7 +32,7 @@
       <i class="graduation cap icon"></i>
       Students
     </a>
-    <a sec:authorize="hasAuthority('STUDENT')"
+    <a th:if="${userContext.user.role.name == 'STUDENT'}"
        th:class="(${menu == 'dashboard'} ? 'active': '') +  ' item'"
        href="/dashboard">
       <i class="newspaper icon"></i>

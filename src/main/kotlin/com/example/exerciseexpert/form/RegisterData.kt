@@ -13,5 +13,8 @@ data class RegisterData(
     var password: String? = null,
 
     @field:NotBlank(message = "password confirmation should not be empty")
-    var confirmPassword: String? = null
+    var confirmPassword: String? = null,
+
+    @field:NotBlank(message = "please choose supervisor")
+    var supervisorUserId: String? = null,
 )

@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface UserRepository: CrudRepository<User, String> {
     fun findByEmail(email: String): User?
-    fun findByRole(roleName: UserRole): User?
+    fun findByRole(roleName: UserRole): List<User>
 }

@@ -25,4 +25,7 @@ data class Notification (
     var messageId: String? = null,
 
     var assignedExerciseId: String? = null,
+
+    // notification source user ID
+    var notificationFromUserId: String? = null,
 )

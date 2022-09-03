@@ -2,7 +2,9 @@ package com.example.exerciseexpert.controller
 
 import com.example.exerciseexpert.domain.emums.UserRole
 import com.example.exerciseexpert.repository.AssignedExerciseRepository
+import com.example.exerciseexpert.repository.MessageRepository
 import com.example.exerciseexpert.repository.UserRepository
+import com.example.exerciseexpert.service.MessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -19,6 +21,9 @@ class StudentController: BaseController() {
 
     @Autowired
     lateinit var assignedExercisesRepository: AssignedExerciseRepository
+
+    @Autowired
+    lateinit var messageService: MessageService
 
     /**
      * Get the students, assigned to the teacher.
@@ -37,8 +42,11 @@ class StudentController: BaseController() {
             Exception("Student not found by the user id $userId")
         }
         val assignedExercises = assignedExercisesRepository.findByAssignedToUserId(student.id!!)
+        val messages = messageService.getDirectMessagesBetweenTwoUsers(student.id!!, user().id!!)
+
         model.addAttribute("student", student)
         model.addAttribute("assignedExercises", assignedExercises)
+        model.addAttribute("messages", messages)
         return "teacher-student-view"
     }
 
