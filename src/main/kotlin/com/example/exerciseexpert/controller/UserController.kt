@@ -4,6 +4,7 @@ import com.example.exerciseexpert.domain.emums.UserRole
 import com.example.exerciseexpert.form.UserEditForm
 import com.example.exerciseexpert.form.UserListItem
 import com.example.exerciseexpert.repository.UserRepository
+import com.example.exerciseexpert.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -15,6 +16,9 @@ class UserController: BaseController() {
 
     @Autowired
     lateinit var userRepository: UserRepository
+
+    @Autowired
+    lateinit var userService: UserService
 
     @GetMapping
     fun showUserListPage(model: Model): String {
@@ -40,7 +44,6 @@ class UserController: BaseController() {
 
     @GetMapping("delete/{id}")
     fun deleteExercise(@PathVariable("id") userId: String): String {
-        logger.info("DEBUG: deleting user with ID=$userId")
         userRepository.deleteById(userId)
         return "redirect:/user"
     }
@@ -51,11 +54,9 @@ class UserController: BaseController() {
             Exception("User with id $userId not found")
         }
         val userForm = UserEditForm(user.id!!, user.name, user.email, "", user.role, user.supervisorUserId)
-        val admins = userRepository.findByRole(UserRole.ADMIN)
-        val teachers = userRepository.findByRole(UserRole.TEACHER)
 
         model.addAttribute("user", userForm)
-        model.addAttribute("supervisors", admins + teachers)
+        model.addAttribute("supervisors", userService.getSupervisors())
         return "user-edit"
     }
 

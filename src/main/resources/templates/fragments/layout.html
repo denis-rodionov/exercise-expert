@@ -46,7 +46,7 @@
     </a>
     <div class="right menu">
       <div th:if="${userContext.user}" class="ui item">
-        <span th:text="${userContext.user.name}"></span>&nbsp|&nbsp<a href="/auth/logout">Log out</a>
+        <a th:text="${userContext.user.name}" href="/profile"></a>&nbsp|&nbsp<a href="/auth/logout">Log out</a>
       </div>
       <div th:unless="${userContext.user}">
         Not logged in

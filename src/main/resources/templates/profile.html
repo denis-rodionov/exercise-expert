@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:include="fragments/layout :: headFragment">
+    <title id="pageTitle">Profile</title>
+</head>
+<body>
+    <div th:replace="fragments/layout :: header('profile')">&nbsp;</div>
+
+    <div class="ui segment">
+
+        <h1>Edit Profile</h1>
+
+        <form method="post" th:object="${user}" th:action="@{/profile}" class="ui form">
+            <div class="field">
+                <label>User name</label>
+                <input type="text" name="name" th:field="*{name}">
+            </div>
+
+            <div class="field">
+                <label>User Email</label>
+                <input type="text" name="email" th:field="*{email}">
+            </div>
+
+            <div class="field">
+                <label>Change user password</label>
+                <input type="text" name="password" th:field="*{password}">
+            </div>
+
+            <div class="field">
+                <label>Supervisor</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="supervisorUserId" th:field="*{supervisorUserId}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Choose a supervisor</div>
+                    <div class="menu">
+                        <div th:each="supervisor: ${supervisors}"
+                             class="item"
+                             data-th-attr="data-value=${supervisor.id}"
+                             th:text="${supervisor.name}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="ui button" href="/user">Cancel</a>
+
+            <input type="hidden" name="id" th:field="*{id}">
+            <button class="ui submit primary button">Save</button>
+        </form>
+    </div>
+
+</body>
+</html>

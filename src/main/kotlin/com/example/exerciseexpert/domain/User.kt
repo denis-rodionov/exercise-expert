@@ -11,7 +11,7 @@ import java.time.Instant
 data class User(
     @Id
     var id: String? = null,
-    val name: String,
+    var name: String,
     val email: String,
     var userPassword: String,
     var role: UserRole,
