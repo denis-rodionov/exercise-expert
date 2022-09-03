@@ -13,5 +13,7 @@ data class UserEditForm(
     var password: String? = null,
 
     @field:NotBlank(message = "user role should not be empty")
-    var role: UserRole? = null
+    var role: UserRole? = null,
+
+    var supervisorUserId: String? = null
 )

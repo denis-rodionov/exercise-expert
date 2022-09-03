@@ -1,6 +1,8 @@
 package com.example.exerciseexpert.controller
 
+import com.example.exerciseexpert.domain.emums.UserRole
 import com.example.exerciseexpert.form.UserEditForm
+import com.example.exerciseexpert.form.UserListItem
 import com.example.exerciseexpert.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -20,7 +22,19 @@ class UserController: BaseController() {
         users.forEach {
             logger.info("DEBUG: $it")
         }
-        model.addAttribute("users", users)
+        val teachers = users.map { it.id to it }.toMap()
+        val viewUsers = users.map {
+            UserListItem(
+                it.id!!,
+                it.name,
+                it.role.RoleName,
+                it.email,
+                it.supervisorUserId,
+                it.supervisorUserId?.let { teachers[it]?.name } .orEmpty()
+            )
+        }
+
+        model.addAttribute("users", viewUsers)
         return "user-list"
     }
 
@@ -36,8 +50,12 @@ class UserController: BaseController() {
         val user = userRepository.findById(userId).orElseThrow {
             Exception("User with id $userId not found")
         }
-        val userForm = UserEditForm(user.id!!, user.name, user.email, "", user.role)
+        val userForm = UserEditForm(user.id!!, user.name, user.email, "", user.role, user.supervisorUserId)
+        val admins = userRepository.findByRole(UserRole.ADMIN)
+        val teachers = userRepository.findByRole(UserRole.TEACHER)
+
         model.addAttribute("user", userForm)
+        model.addAttribute("supervisors", admins + teachers)
         return "user-edit"
     }
 
@@ -45,7 +63,14 @@ class UserController: BaseController() {
     fun saveUser(@ModelAttribute user: UserEditForm): String {
         var domainUser = userRepository.findById(user.id).orElseThrow()
         logger.info("DEBUG: user role $user.role")
-        domainUser.role = user.role
+        domainUser.role = user.role?: throw Exception("No role set to the user")
+
+        user.supervisorUserId?.let {
+            if (it.isNotBlank()) {
+                domainUser.supervisorUserId = it
+            }
+        }
+
         user.password?.let {
             if (it.isNotBlank()) {
                 domainUser.userPassword = it

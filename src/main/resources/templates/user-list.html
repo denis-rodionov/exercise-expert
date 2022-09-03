@@ -25,6 +25,12 @@
   </div>
 
   <table class="ui very basic fixed single line unstackable celled table">
+    <thead>
+    <tr><th>Name</th>
+      <th>Email</th>
+      <th>Supervisor</th>
+      <th>Actions</th>
+    </tr></thead>
     <tbody>
     <tr th:each="user: ${users}">
       <td>
@@ -36,6 +42,9 @@
       <td>
         <i class="email icon"></i>
         <span th:text="${user.email}"></span>
+      </td>
+      <td>
+        <span th:text="${user.supervisorName}"></span>
       </td>
       <td>
         <button class="ui compact red icon button deleteUserBtn"
