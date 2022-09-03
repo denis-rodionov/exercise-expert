@@ -43,10 +43,13 @@ class StudentController: BaseController() {
         }
         val assignedExercises = assignedExercisesRepository.findByAssignedToUserId(student.id!!)
         val messages = messageService.getDirectMessagesBetweenTwoUsers(student.id!!, user().id!!)
+        val doneExercises = assignedExercises.filter { it.result != null }
+        val exerciseProgressPercent =  doneExercises.size * 100 / assignedExercises.size
 
         model.addAttribute("student", student)
         model.addAttribute("assignedExercises", assignedExercises)
         model.addAttribute("messages", messages)
+        model.addAttribute("exerciseProgressPercent", exerciseProgressPercent)
         return "teacher-student-view"
     }
 
