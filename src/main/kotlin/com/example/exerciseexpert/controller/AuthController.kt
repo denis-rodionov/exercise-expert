@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import java.time.Instant
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
@@ -43,8 +44,6 @@ class AuthController : BaseController() {
         val admins = userRepository.findByRole(UserRole.ADMIN)
         val teachers = userRepository.findByRole(UserRole.TEACHER)
 
-        logger.info("DEBUG: Admins: ${admins.size} Teachers: ${teachers.size}")
-
         model.addAttribute("registerData", RegisterData())
         model.addAttribute("supervisors", admins + teachers)
         return "register"
@@ -67,6 +66,7 @@ class AuthController : BaseController() {
             registerData.password!!,
             UserRole.STUDENT,
             registerData.supervisorUserId,
+            Instant.now(),
         ))
         logger.info("New user is saved: ${registerData.name}")
         return "redirect:/login"

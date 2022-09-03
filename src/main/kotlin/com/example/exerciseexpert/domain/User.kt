@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.lang.Exception
+import java.time.Instant
 
 data class User(
     @Id
@@ -15,6 +16,7 @@ data class User(
     var userPassword: String,
     var role: UserRole,
     var supervisorUserId: String?,
+    var registeredDate: Instant?,
 ) : UserDetails {
     override fun toString(): String {
         return "User $name, role: $role, id: $id"
