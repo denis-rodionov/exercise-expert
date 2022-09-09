@@ -15,5 +15,7 @@ data class UserEditForm(
     @field:NotBlank(message = "user role should not be empty")
     var role: UserRole? = null,
 
-    var supervisorUserId: String? = null
+    var supervisorUserId: String? = null,
+
+    val avatarReadonly: String?,
 )

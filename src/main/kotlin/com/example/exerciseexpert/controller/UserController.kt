@@ -53,7 +53,7 @@ class UserController: BaseController() {
         val user = userRepository.findById(userId).orElseThrow {
             Exception("User with id $userId not found")
         }
-        val userForm = UserEditForm(user.id!!, user.name, user.email, "", user.role, user.supervisorUserId)
+        val userForm = UserEditForm(user.id!!, user.name, user.email, "", user.role, user.supervisorUserId, null)
 
         model.addAttribute("user", userForm)
         model.addAttribute("supervisors", userService.getSupervisors())

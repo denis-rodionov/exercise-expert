@@ -1,6 +1,7 @@
 package com.example.exerciseexpert.domain
 
 import com.example.exerciseexpert.domain.emums.UserRole
+import org.bson.types.Binary
 import org.springframework.data.annotation.Id
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -17,6 +18,7 @@ data class User(
     var role: UserRole,
     var supervisorUserId: String?,
     var registeredDate: Instant?,
+    var avatarBase64: String?,
 ) : UserDetails {
     override fun toString(): String {
         return "User $name, role: $role, id: $id"

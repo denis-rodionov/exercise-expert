@@ -67,6 +67,7 @@ class AuthController : BaseController() {
             UserRole.STUDENT,
             registerData.supervisorUserId,
             Instant.now(),
+            null,
         ))
         logger.info("New user is saved: ${registerData.name}")
         return "redirect:/login"

@@ -101,6 +101,9 @@
             <h3 class="ui dividing header">Direct Messages</h3>
             <p th:if="${#lists.isEmpty(messages)}">No direct messages yet</p>
             <div th:each="message: ${messages}" class="comment">
+              <a class="avatar">
+                <img src="">
+              </a>
               <div class="content">
                 <a class="author" th:text="${message.authorName}"></a>
                 <div class="metadata">

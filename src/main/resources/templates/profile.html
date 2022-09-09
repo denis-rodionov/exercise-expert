@@ -10,7 +10,9 @@
 
         <h1>Edit Profile</h1>
 
-        <form method="post" th:object="${user}" th:action="@{/profile}" class="ui form">
+        <img th:if="${user.avatarReadonly != null}" class="ui small image" th:src="@{'data:image/png;base64, ' + ${user.avatarReadonly}}">
+
+        <form method="post" th:object="${user}" th:action="@{/profile}" class="ui form" enctype="multipart/form-data">
             <div class="field">
                 <label>User name</label>
                 <input type="text" name="name" th:field="*{name}">
@@ -37,6 +39,16 @@
                              class="item"
                              data-th-attr="data-value=${supervisor.id}"
                              th:text="${supervisor.name}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Avatar</label>
+                <div class="ui action input">
+                    <input type="file" name="avatar" accept="image/png, image/jpeg">
+                    <div class="ui icon button">
+                        <i class="attach icon"></i>
                     </div>
                 </div>
             </div>
