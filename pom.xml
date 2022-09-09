@@ -16,7 +16,7 @@
     <properties>
         <java.version>1.8</java.version>
         <repackage.classifier/>
-        <kotlin.version>1.5.30-M1</kotlin.version>
+        <kotlin.version>1.6.0</kotlin.version>
         <spring-native.version>0.10.3</spring-native.version>
     </properties>
     <dependencies>
